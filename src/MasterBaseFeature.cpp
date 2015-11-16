@@ -44,7 +44,7 @@ void MasterBaseFeature::evt_service_close_session( NetworkService * service , Se
 
     for ( size_t i = 0; i <= this->nodes_index_; i++ )
     {
-        if ( nodes_[i]->session() == session )
+        if ( nodes_[i] != nullptr && nodes_[i]->session() == session )
         {
             nodes_[i] = nullptr;
             if ( i == nodes_index_ )

@@ -55,7 +55,7 @@ UPTR<Buffer> CircleBuffer::pop( size_t len )
         return nullptr;
     }
 
-    UPTR<Buffer> result = MAKE_UPTR( Buffer );
+    UPTR<Buffer> result = MAKE_UPTR( Buffer , len );
     size_t result_pos   = 0;
     char* phead         = this->circle_buffer_ + this->head_;
 

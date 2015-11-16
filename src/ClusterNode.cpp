@@ -103,8 +103,8 @@ void ClusterNode::parse_message()
                     pdata  += sizeof( short );
                     this->oringal_length_ = *( unsigned short* ) pdata;
 
-                    if ( ( this->oringal_length_    > 1024 * 1024 ) || 
-                         ( this->compressed_length_ > 1024 * 1024 ) )
+                    if ( ( this->oringal_length_    > CIRCLE_BUFFER_SIZE ) || 
+                         ( this->compressed_length_ > CIRCLE_BUFFER_SIZE ) )
                     {
                         this->parse_state_ = ParseState::kFlag;
                         break;
@@ -122,13 +122,22 @@ void ClusterNode::parse_message()
                         return;
                     }
 
-                    UPTR<Message> message = MAKE_UPTR( 
-                        Message , 
-                        std::string( t_buf->data() , 
-                                     t_buf->size() ) );
+                    try
+                    {
+                        UPTR<Message> message = MAKE_UPTR(
+                            Message ,
+                            std::string( t_buf->data( ) ,
+                            t_buf->size( ) ) );
 
-                    message->owner( this );
-                    this->on_message( MOVE( message ) );
+                        message->owner( this );
+                        this->on_message( MOVE( message ) );
+                    }
+                    catch (...)
+                    {
+                        this->parse_state_ = ParseState::kFlag;
+                        this->close( );
+                        return;
+                    }
                 }
                 break;
             default:

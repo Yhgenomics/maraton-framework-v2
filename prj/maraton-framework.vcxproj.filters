@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{94dd1c97-494f-4d8e-aea6-dc3707e04a29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="drv">
+      <UniqueIdentifier>{1f2e815f-169e-444b-8b2b-cc6074e3a8cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="inc">
+      <UniqueIdentifier>{17250f3d-b3e3-4a8c-ba8f-c0bbb5e9b533}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\inc\android-ifaddrs.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\AsyncWorker.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Buffer.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\CircleBuffer.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Configuration.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Define.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\EventNotifier.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Feature.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\json.hpp">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Logger.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\maraton.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\NetworkService.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\pthread-fixes.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Server.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Session.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\SessionManager.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\stdint-msvc2008.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\SyncWorker.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\tree.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Utils.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\uv.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\uv-aix.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\uv-bsd.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\uv-darwin.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\uv-errno.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\uv-linux.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\uv-sunos.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\uv-threadpool.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\uv-unix.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\uv-version.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\uv-win.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Message.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ClusterNode.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MasterBaseFeature.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ExecutorBaseFeature.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\maraton-framework.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\drv\AsyncWorker.cpp">
+      <Filter>drv</Filter>
+    </ClCompile>
+    <ClCompile Include="..\drv\Buffer.cpp">
+      <Filter>drv</Filter>
+    </ClCompile>
+    <ClCompile Include="..\drv\CircleBuffer.cpp">
+      <Filter>drv</Filter>
+    </ClCompile>
+    <ClCompile Include="..\drv\Configuration.cpp">
+      <Filter>drv</Filter>
+    </ClCompile>
+    <ClCompile Include="..\drv\Feature.cpp">
+      <Filter>drv</Filter>
+    </ClCompile>
+    <ClCompile Include="..\drv\NetworkService.cpp">
+      <Filter>drv</Filter>
+    </ClCompile>
+    <ClCompile Include="..\drv\Server.cpp">
+      <Filter>drv</Filter>
+    </ClCompile>
+    <ClCompile Include="..\drv\Session.cpp">
+      <Filter>drv</Filter>
+    </ClCompile>
+    <ClCompile Include="..\drv\SessionManager.cpp">
+      <Filter>drv</Filter>
+    </ClCompile>
+    <ClCompile Include="..\drv\SyncWorker.cpp">
+      <Filter>drv</Filter>
+    </ClCompile>
+    <ClCompile Include="..\drv\Utils.cpp">
+      <Filter>drv</Filter>
+    </ClCompile>
+    <ClCompile Include="main-test.cpp" />
+    <ClCompile Include="..\src\Message.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ClusterNode.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ExecutorBaseFeature.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MasterBaseFeature.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

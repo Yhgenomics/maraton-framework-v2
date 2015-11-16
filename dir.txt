@@ -1,0 +1,5 @@
+3rd: 3rd-party library folder
+drv: drvier layer source folder
+lib: libraries for windows and linux
+prj: project file folder
+src: source code folder

@@ -2,8 +2,8 @@
 
 Feature::Feature()
 {
-    service_ = MAKE_UPTR( NetworkService );
-    service_->register_notifier( this );
+    //service_ = MAKE_UPTR( NetworkService );
+    //service_->register_notifier( this );
 }
 
 Feature::~Feature()

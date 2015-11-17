@@ -10,40 +10,15 @@
 
 #include <string>
 
-#include "maraton-framework.h"
-#include "ClusterNode.h"
+#include "ClusterFeature.h"
 
 class MasterBaseFeature :
-    public Feature
+    public ClusterFeature
 {
 public:
 
-    MasterBaseFeature( std::string host , int port );
-    virtual ~MasterBaseFeature();
-
-    void evt_service_failed         ( NetworkService* service ,
-                                      size_t status ) override ;
-    
-    void evt_service_open_session   ( NetworkService* service ,
-                                      Session* session ) override;
-    
-    void evt_service_close_session  ( NetworkService* service ,
-                                      Session* session ) override;
-    
-    void evt_service_stop           ( NetworkService* service ) override;
-
-protected:
-     
-    std::string                     host_                     = "";
-    int                             port_                     = 0;
-    std::array<UPTR<ClusterNode> , 
-              MAX_MASTER_NODE_SIZE> nodes_;
-    //UPTR<ClusterNode>           nodes_[MAX_MASTER_NODE_SIZE]    = { 0 };
-    int                             nodes_index_              = 0;
-
-    virtual UPTR<ClusterNode>       create_node( Session* s ) { return MAKE_UPTR( ClusterNode , s ); };
-    virtual void                    on_new_clusternode( ClusterNode* node );
-    virtual void                    on_close_clusternode( ClusterNode* node );
+    MasterBaseFeature( std::string host );
+    virtual ~MasterBaseFeature();  
 };
 
 #endif // !MASTER_BASE_FEATURE_H_

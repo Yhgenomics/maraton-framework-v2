@@ -159,9 +159,10 @@ void NetworkService::uv_callback_service_close( uv_handle_t * handle )
         return;
     } 
     
-    SAFE_NOTIFY( service->notifier_ , evt_service_stop , service );
+    INetworkSubscribe* notifier = service->notifier_;
+    SAFE_NOTIFY( notifier , evt_service_stop , service );
 
-    SAFE_DELETE( service );
+    //SAFE_DELETE( service );
 }
 
 void NetworkService::uv_callback_close( uv_handle_t * handle )

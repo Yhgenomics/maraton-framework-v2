@@ -123,6 +123,15 @@
     <ClInclude Include="..\inc\maraton-framework.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\inc\Timer.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\HTTPFeature.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Array.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\drv\AsyncWorker.cpp">
@@ -166,6 +175,18 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ClusterFeature.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Timer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ExecutorBaseFeature.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MasterBaseFeature.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HTTPFeature.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

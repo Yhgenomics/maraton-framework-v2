@@ -18,9 +18,7 @@ public:
     Feature();
     virtual ~Feature();
 
-protected: 
-
-    UPTR<NetworkService> service_ = nullptr;
+protected:  
 
 private:
 

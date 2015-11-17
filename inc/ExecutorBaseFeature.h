@@ -5,40 +5,20 @@
 * Description:
 * * * * * * * * * * * * * * * */
 
-#ifndef EXECUTOR_FEATURE_H_
-#define EXECUTOR_FEATURE_H_
+#ifndef EXECUTOR_BASE_FEATURE_H_
+#define EXECUTOR_BASE_FEATURE_H_
 
 #include <string>
-#include "maraton.h"
-#include "ClusterNode.h"
+
+#include "ClusterFeature.h"
 
 class ExecutorBaseFeature :
-    public Feature
+    public ClusterFeature
 {
 public:
 
-    ExecutorBaseFeature                     ( std::string host, int port );
-    ~ExecutorBaseFeature                    ( );
-
-
-    virtual void evt_service_failed         ( NetworkService* service ,
-                                              size_t status ) override ;
-    
-    virtual void evt_service_open_session   ( NetworkService* service ,
-                                              Session* session ) override;
-    
-    virtual void evt_service_close_session  ( NetworkService* service ,
-                                              Session* session ) override;
-    
-    virtual void evt_service_stop           ( NetworkService* service ) override;
-
-protected:
-
-    std::string                 host_ = "";
-    int                         port_ = 0;
-    UPTR<ClusterNode>           node_ = nullptr;
-
-    virtual UPTR<ClusterNode>   create_node ( Session* ) = 0;
+    ExecutorBaseFeature                     ( std::string host );
+    ~ExecutorBaseFeature                    ( );  
 };
 
-#endif // !EXECUTOR_FEATURE_H_
+#endif // !EXECUTOR_BASE_FEATURE_H_

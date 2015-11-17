@@ -10,8 +10,26 @@
 
 #endif // !MARATON_FRAMEWORK_H_
 
-#include "maraton.h"
-#include "ClusterFeature.h"
+#include "Array.h"
+#include "Buffer.h"
+#include "CircleBuffer.h"
+#include "NetworkService.h"
+#include "Session.h"
+#include "AsyncWorker.h"
+#include "SyncWorker.h"
+#include "Configuration.h"
+#include "Define.h"
+#include "json.hpp"
+#include "Logger.h"
+#include "EventNotifier.h"
+#include "Utils.h"
+#include "Timer.h"
+#include "Server.h"
+
 #include "ClusterNode.h"
 
-#define MAX_MASTER_NODE_SIZE 5120
+#include "Feature.h"
+#include "ClusterFeature.h"
+#include "MasterBaseFeature.h"
+#include "ExecutorBaseFeature.h"
+

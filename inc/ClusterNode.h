@@ -37,6 +37,7 @@ public :
     void         evt_session_sent_complete  ( Session*, size_t size )     override;
 
     Session*     session                    ( ){ return this->session_; };
+    size_t       id                         ( );
 
 protected:
 

@@ -8,7 +8,8 @@
 #ifndef CLUSTER_FEATURE_H_
 #define CLUSTER_FEATURE_H_
 
-#include "maraton-framework.h"
+#include "Define.h"
+#include "Feature.h"
 #include "ClusterNode.h"
 
 class ClusterFeature :
@@ -17,6 +18,7 @@ class ClusterFeature :
 public:
 
     ClusterFeature( std::string host , int port );
+    
     virtual ~ClusterFeature();
 
     void evt_service_failed         ( NetworkService* service ,
@@ -36,15 +38,18 @@ protected:
     int                             port_                     = 0;
     std::array<UPTR<ClusterNode>,  
            MAX_MASTER_NODE_SIZE>    nodes_;
-    int                             nodes_index_              = 0;
                                     
-    int                             node_array_index_ = 0;
+    int                             nodes_array_index_        = 0;
     std::array<SPTR<ClusterNode>,
                           10240>    nodes_array_;
+    UPTR<NetworkService>            service_ = nullptr;
 
     virtual SPTR<ClusterNode> create_node( Session*  session ) = 0;
     virtual void              on_new_clusternode(  SPTR<ClusterNode> node ) = 0;
     virtual void              on_close_clusternode(  SPTR<ClusterNode> node ) = 0;
+
+private :
+
 };
 
 #endif // !CLUSTER_FEATURE_H_

@@ -58,6 +58,13 @@ void ClusterNode::evt_session_sent_complete( Session * , size_t size )
 
 }
 
+size_t ClusterNode::id()
+{ 
+    return this->session_ == nullptr ? 
+        0 : 
+        this->session_->id();
+};
+
 void ClusterNode::on_message( UPTR<Message> msg )
 {
 

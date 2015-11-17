@@ -12,6 +12,9 @@
 #define SESSION_RECIVE_BUFFER_SIZE  1024 * 128
 #define HOST_NAME_SIZE              512
 #define IP_STRING_SIZE              16
+#define MASTER_PORT                 90
+#define MASTER_HTTP_PORT            8080
+#define MAX_MASTER_NODE_SIZE        5120
 
 // Macro function definitions
 #define PP_DEF(__type__,__name__)                           \
@@ -69,10 +72,17 @@ public:                                                     \
 #define MAKE_SPTR(__t__,...) std::make_shared< __t__ >(__VA_ARGS__)
 #define MOVE(__T__) std::move(__T__)
 
+#define SCAST(__t__,__i__) static_cast< __T__ >( __i__ )
+
 // Debug mode definitions
 #if DEBUG_MODE
 #define LOG_DEBUG(msg_,...) Logger::log("%s:%d "##msg_,__FILE__,__LINE__,##__VA_ARGS__)
-#define LOG_DEBUG_UV(status) if( status != 0 ) Logger::log("%s:%d uv error: %s",__FILE__,__LINE__,uv_strerror((int)status))
+#define LOG_DEBUG_UV(status) \
+                if( status != 0 ) \
+                    Logger::log("%s:%d uv error: %s",\
+                                __FILE__,\
+                                __LINE__,\
+                                uv_strerror((int)status))
 #else
 #define LOG_DEBUG(msg_,...) 
 #define LOG_DEBUG_UV(status)

@@ -58,15 +58,16 @@ public:
     NetworkService();
     ~NetworkService();
 
-    void listen                         ( const char* host, int port );
-    void connect                        ( const char* host, int port );
-    void stop                           ( );
     NetworkService::ServiceType service_type   ( );
-    
-    //void on_operation_failed            ( service_status_callback_t callback );
-    //void on_open_session                ( session_callback_t callback );
-    //void on_close_session               ( session_callback_t callback );
+    void listen                                ( const char* host, int port );
+    void connect                               ( const char* host, int port );
+    void stop                                  ( );
 
+    void data                                  ( void* value ) 
+                                               { this->data = MOVE( value ); };
+    
+    void* data                                 ( )
+                                               { return this->data_; };
 
 protected:
 
@@ -86,6 +87,7 @@ private:
     uv_getaddrinfo_t*       uv_resolver_                = { 0 };
     addrinfo                addrinfo_                   = { 0 };
     sockaddr_in             addr_in                     = { 0 };
+    void*                   data_                       = nullptr;
 
     //service_status_callback_t      operation_failed_callback_  = nullptr;
     //session_callback_t      new_session_callback_       = nullptr;
@@ -110,6 +112,7 @@ private:
     static void uv_process_resolved         ( uv_getaddrinfo_t* req,
                                               int status,
                                               struct addrinfo* res );
+
 
     friend class Session;
 };

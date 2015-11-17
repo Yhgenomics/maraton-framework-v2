@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\inc\android-ifaddrs.h" />
+    <ClInclude Include="..\inc\Array.h" />
     <ClInclude Include="..\inc\AsyncWorker.h" />
     <ClInclude Include="..\inc\Buffer.h" />
     <ClInclude Include="..\inc\CircleBuffer.h" />
@@ -30,6 +31,7 @@
     <ClInclude Include="..\inc\EventNotifier.h" />
     <ClInclude Include="..\inc\ExecutorBaseFeature.h" />
     <ClInclude Include="..\inc\Feature.h" />
+    <ClInclude Include="..\inc\HTTPFeature.h" />
     <ClInclude Include="..\inc\json.hpp" />
     <ClInclude Include="..\inc\Logger.h" />
     <ClInclude Include="..\inc\maraton-framework.h" />
@@ -43,6 +45,7 @@
     <ClInclude Include="..\inc\SessionManager.h" />
     <ClInclude Include="..\inc\stdint-msvc2008.h" />
     <ClInclude Include="..\inc\SyncWorker.h" />
+    <ClInclude Include="..\inc\Timer.h" />
     <ClInclude Include="..\inc\tree.h" />
     <ClInclude Include="..\inc\Utils.h" />
     <ClInclude Include="..\inc\uv-aix.h" />
@@ -71,7 +74,11 @@
     <ClCompile Include="..\drv\Utils.cpp" />
     <ClCompile Include="..\src\ClusterFeature.cpp" />
     <ClCompile Include="..\src\ClusterNode.cpp" />
+    <ClCompile Include="..\src\ExecutorBaseFeature.cpp" />
+    <ClCompile Include="..\src\HTTPFeature.cpp" />
+    <ClCompile Include="..\src\MasterBaseFeature.cpp" />
     <ClCompile Include="..\src\Message.cpp" />
+    <ClCompile Include="..\src\Timer.cpp" />
     <ClCompile Include="main-test.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -95,7 +102,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -130,6 +137,7 @@
     <ReferencePath>..\drv;..\inc;..\src;$(ReferencePath)</ReferencePath>
     <LibraryPath>..\lib;$(LibraryPath)</LibraryPath>
     <SourcePath>..\drv;..\src;$(SourcePath)</SourcePath>
+    <OutDir>$(SolutionDir)..\lib</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -151,6 +159,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

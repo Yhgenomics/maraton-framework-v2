@@ -23,13 +23,19 @@
     <ClInclude Include="..\inc\AsyncWorker.h" />
     <ClInclude Include="..\inc\Buffer.h" />
     <ClInclude Include="..\inc\CircleBuffer.h" />
+    <ClInclude Include="..\inc\ClusterFeature.h" />
+    <ClInclude Include="..\inc\ClusterNode.h" />
     <ClInclude Include="..\inc\Configuration.h" />
     <ClInclude Include="..\inc\Define.h" />
     <ClInclude Include="..\inc\EventNotifier.h" />
+    <ClInclude Include="..\inc\ExecutorBaseFeature.h" />
     <ClInclude Include="..\inc\Feature.h" />
     <ClInclude Include="..\inc\json.hpp" />
     <ClInclude Include="..\inc\Logger.h" />
+    <ClInclude Include="..\inc\maraton-framework.h" />
     <ClInclude Include="..\inc\maraton.h" />
+    <ClInclude Include="..\inc\MasterBaseFeature.h" />
+    <ClInclude Include="..\inc\Message.h" />
     <ClInclude Include="..\inc\NetworkService.h" />
     <ClInclude Include="..\inc\pthread-fixes.h" />
     <ClInclude Include="..\inc\Server.h" />
@@ -50,10 +56,7 @@
     <ClInclude Include="..\inc\uv-version.h" />
     <ClInclude Include="..\inc\uv-win.h" />
     <ClInclude Include="..\inc\uv.h" />
-    <ClInclude Include="..\src\ClusterFeature.h" />
-    <ClInclude Include="..\src\ClusterNode.h" />
     <ClInclude Include="..\src\maraton-framework.h" />
-    <ClInclude Include="..\src\Message.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\drv\AsyncWorker.cpp" />

@@ -111,14 +111,11 @@
     <ClInclude Include="..\src\ClusterNode.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\MasterBaseFeature.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\ExecutorBaseFeature.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\maraton-framework.h">
       <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ClusterFeature.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -162,10 +159,7 @@
     <ClCompile Include="..\src\ClusterNode.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ExecutorBaseFeature.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\MasterBaseFeature.cpp">
+    <ClCompile Include="..\src\ClusterFeature.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

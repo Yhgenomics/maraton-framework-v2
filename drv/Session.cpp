@@ -21,11 +21,10 @@ void Session::on_connected( )
 void Session::on_receive_data( Buffer & buffer )
 {
     SAFE_NOTIFY( this->notifier_ , evt_session_receive_data , this , buffer );
-    
-    char char_buf[512]= { 0 };
-    sprintf( char_buf , "Session %lld response\r\n" , this->id( ) );
-    Buffer buf( char_buf , 512);
-    this->send( buf );
+    //char char_buf[512]= { 0 };
+    //sprintf( char_buf , "Session %lld response\r\n" , this->id( ) );
+    //Buffer buf( char_buf , 512);
+    //this->send( buf );
 }
 
 void Session::on_close( )

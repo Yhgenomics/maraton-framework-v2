@@ -1,25 +1,24 @@
 /* * * * * * * * * * * * * * * *
 * YHGenomics Inc.
 * Author     : yang shubo
-* Date       : 2015-11-16
+* Date       : 2015-11-17
 * Description:
 * * * * * * * * * * * * * * * */
 
-#ifndef MASTER_BASE_FEATURE_H_
-#define MASTER_BASE_FEATURE_H_
-
-#include <string>
+#ifndef CLUSTER_FEATURE_H_
+#define CLUSTER_FEATURE_H_
 
 #include "maraton-framework.h"
+#include "Feature.h"
 #include "ClusterNode.h"
 
-class MasterBaseFeature :
+class ClusterFeature :
     public Feature
 {
 public:
 
-    MasterBaseFeature( std::string host , int port );
-    virtual ~MasterBaseFeature();
+    ClusterFeature( std::string host , int port );
+    virtual ~ClusterFeature();
 
     void evt_service_failed         ( NetworkService* service ,
                                       size_t status ) override ;
@@ -36,14 +35,17 @@ protected:
      
     std::string                     host_                     = "";
     int                             port_                     = 0;
-    std::array<UPTR<ClusterNode> , 
-              MAX_MASTER_NODE_SIZE> nodes_;
-    //UPTR<ClusterNode>           nodes_[MAX_MASTER_NODE_SIZE]    = { 0 };
+    std::array<UPTR<ClusterNode>,  
+           MAX_MASTER_NODE_SIZE>    nodes_;
     int                             nodes_index_              = 0;
+                                    
+    int                             node_array_index_ = 0;
+    std::array<SPTR<ClusterNode>,
+                          10240>    nodes_array_;
 
-    virtual UPTR<ClusterNode>       create_node( Session* s ) { return MAKE_UPTR( ClusterNode , s ); };
-    virtual void                    on_new_clusternode( ClusterNode* node );
-    virtual void                    on_close_clusternode( ClusterNode* node );
+    virtual SPTR<ClusterNode> create_node( Session*  session ) = 0;
+    virtual void              on_new_clusternode(  SPTR<ClusterNode> node ) = 0;
+    virtual void              on_close_clusternode(  SPTR<ClusterNode> node ) = 0;
 };
 
-#endif // !MASTER_BASE_FEATURE_H_
+#endif // !CLUSTER_FEATURE_H_

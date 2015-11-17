@@ -181,10 +181,13 @@ void NetworkService::uv_callback_close( uv_handle_t * handle )
         return;
     }
 
+    bool is_client = session->uv_tcp_ == nullptr;
+
     session->on_close( );
+
     service->remove_session( session );
 
-    if( session->uv_tcp_ == nullptr )
+    if( is_client )
     {
         // NetworkService is client mode
         service->stop();

@@ -131,6 +131,7 @@ void ClusterNode::parse_message()
 
                         message->owner( this );
                         this->on_message( MOVE( message ) );
+                        this->parse_state_ = ParseState::kFlag;
                     }
                     catch (...)
                     {

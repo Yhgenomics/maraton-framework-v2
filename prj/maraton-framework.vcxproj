@@ -50,10 +50,9 @@
     <ClInclude Include="..\inc\uv-version.h" />
     <ClInclude Include="..\inc\uv-win.h" />
     <ClInclude Include="..\inc\uv.h" />
+    <ClInclude Include="..\src\ClusterFeature.h" />
     <ClInclude Include="..\src\ClusterNode.h" />
-    <ClInclude Include="..\src\ExecutorBaseFeature.h" />
     <ClInclude Include="..\src\maraton-framework.h" />
-    <ClInclude Include="..\src\MasterBaseFeature.h" />
     <ClInclude Include="..\src\Message.h" />
   </ItemGroup>
   <ItemGroup>
@@ -68,9 +67,8 @@
     <ClCompile Include="..\drv\SessionManager.cpp" />
     <ClCompile Include="..\drv\SyncWorker.cpp" />
     <ClCompile Include="..\drv\Utils.cpp" />
+    <ClCompile Include="..\src\ClusterFeature.cpp" />
     <ClCompile Include="..\src\ClusterNode.cpp" />
-    <ClCompile Include="..\src\ExecutorBaseFeature.cpp" />
-    <ClCompile Include="..\src\MasterBaseFeature.cpp" />
     <ClCompile Include="..\src\Message.cpp" />
     <ClCompile Include="main-test.cpp" />
   </ItemGroup>

@@ -6,11 +6,12 @@
 * * * * * * * * * * * * * * * */
 
 #ifndef MARATON_FRAMEWORK_H_
-#define MARATON_FRAMEWORK_H_
-
-#include "maraton.h"
-
-#define MAX_MASTER_NODE_SIZE 5120
-
+#define MARATON_FRAMEWORK_H_ 
 
 #endif // !MARATON_FRAMEWORK_H_
+
+#include "maraton.h"
+#include "ClusterFeature.h"
+#include "ClusterNode.h"
+
+#define MAX_MASTER_NODE_SIZE 5120

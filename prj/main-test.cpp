@@ -1,7 +1,4 @@
-#include "maraton.h"
 #include "maraton-framework.h"
-#include "MasterBaseFeature.h"
-#include "ClusterFeature.h"
 #include <string>
 
 class MasterFeature :

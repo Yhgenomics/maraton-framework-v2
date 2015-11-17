@@ -56,7 +56,6 @@
     <ClInclude Include="..\inc\uv-version.h" />
     <ClInclude Include="..\inc\uv-win.h" />
     <ClInclude Include="..\inc\uv.h" />
-    <ClInclude Include="..\src\maraton-framework.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\drv\AsyncWorker.cpp" />

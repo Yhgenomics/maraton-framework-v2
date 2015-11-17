@@ -9,7 +9,6 @@
 #define CLUSTER_FEATURE_H_
 
 #include "maraton-framework.h"
-#include "Feature.h"
 #include "ClusterNode.h"
 
 class ClusterFeature :

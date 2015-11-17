@@ -105,9 +105,6 @@
     <ClInclude Include="..\inc\uv-win.h">
       <Filter>inc</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\maraton-framework.h">
-      <Filter>inc</Filter>
-    </ClInclude>
     <ClInclude Include="..\inc\ClusterFeature.h">
       <Filter>inc</Filter>
     </ClInclude>
@@ -117,13 +114,13 @@
     <ClInclude Include="..\inc\ExecutorBaseFeature.h">
       <Filter>inc</Filter>
     </ClInclude>
-    <ClInclude Include="..\inc\maraton-framework.h">
-      <Filter>inc</Filter>
-    </ClInclude>
     <ClInclude Include="..\inc\MasterBaseFeature.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\inc\Message.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\maraton-framework.h">
       <Filter>inc</Filter>
     </ClInclude>
   </ItemGroup>

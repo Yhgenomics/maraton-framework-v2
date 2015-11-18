@@ -1,5 +1,4 @@
-#include "Message.h"
-#include "Message.h"
+#include "Message.h" 
 
 Message::Message(const std::string json_str )
 { 
@@ -76,12 +75,12 @@ Buffer Message::bytes()
     return buffer;
 }
 
-void Message::owner( ClusterNode * session )
+void Message::owner( IClusterNode * session )
 {
     this->owner_ = session;
 }
 
-ClusterNode * Message::owner()
+IClusterNode * Message::owner()
 {
     return this->owner_;
 }

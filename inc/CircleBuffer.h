@@ -21,6 +21,9 @@ public:
     ~CircleBuffer();
 
     virtual bool push           ( Buffer & buf );
+    virtual bool push           ( const char* data , size_t len );
+    virtual bool push           ( UPTR<Buffer> buf );
+    void         clear          ( );
 
     virtual UPTR<Buffer> pop    ( size_t len );
 

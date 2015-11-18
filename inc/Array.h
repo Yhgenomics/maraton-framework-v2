@@ -8,19 +8,19 @@
 #ifndef ARRAY_H_
 #define ARRAY_H_
 
-#include "maraton-framework.h"
+#include "Define.h"
 
 template<class T,size_t S>
 class Array
 {
 public:
 
-    void        push( T instance );
-    bool        remove( T instance );
-    bool        remove( size_t index );
+    void        push        ( T instance );
+    bool        remove      ( T instance );
+    bool        remove_at   ( size_t index );
     size_t      size();
     size_t      count();
-    T           operator[]( size_t index );
+    T           operator[]  ( size_t index );
 
 private:
 
@@ -38,7 +38,7 @@ inline void Array<T , S>::push( T instance )
             array_list_[i] = instance;
             if ( i > element_index_ )
             {
-                element_index = MOVE( i );
+                element_index_ = MOVE( i );
             }
             break;
         }
@@ -46,7 +46,7 @@ inline void Array<T , S>::push( T instance )
 }
 
 template<class T , size_t S>
-inline void Array<T , S>::remove( T instance )
+inline bool Array<T , S>::remove( T instance )
 {
     for ( size_t i = 0; i <= element_index_; i++ )
     {
@@ -67,7 +67,7 @@ inline void Array<T , S>::remove( T instance )
 }
 
 template<class T , size_t S>
-inline bool Array<T , S>::remove( size_t index )
+inline bool Array<T , S>::remove_at( size_t index )
 {
     if ( index >= S )return false;
 

@@ -11,10 +11,11 @@
 #include "maraton.h"
 #include "Session.h"
 #include "Message.h"
+#include "IClusterNode.h"
 
 class ClusterNode;
 
-class IClusterSessionSubscribe
+class IClusterNodeSubscribe
 {
 public:
 
@@ -22,8 +23,9 @@ public:
 };
 
 class ClusterNode :
+    public IClusterNode ,
     public ISessionSubscribe ,
-    public EventNotifier<IClusterSessionSubscribe>
+    public EventNotifier<IClusterNodeSubscribe>
 {
 public :
 
@@ -33,7 +35,7 @@ public :
     virtual void send                       ( UPTR<Message> message );
 
     void         evt_session_close          ( Session* )                  override;
-    void         evt_session_receive_data   ( Session*, Buffer & buffer ) override;
+    void         evt_session_receive_data   ( Session*, UPTR<Buffer> buffer ) override;
     void         evt_session_sent_complete  ( Session*, size_t size )     override;
 
     Session*     session                    ( ){ return this->session_; };
@@ -43,6 +45,7 @@ protected:
 
     virtual void on_message                 ( UPTR<Message> msg );
     virtual void on_close                   ( );
+    virtual void parse_message              ( );
 
 private:
 
@@ -60,7 +63,6 @@ private:
     size_t          compressed_length_  = 0;
     size_t          oringal_length_     = 0;
 
-    void            parse_message();
 };
 
 #endif // !CLUSTER_SESSION_H_

@@ -1,8 +1,8 @@
 #include "ClusterNode.h"
 
 ClusterNode::ClusterNode( Session * session )
+    : IClusterNode( session )
 {
-    this->session_ = session;
     this->session_->register_notifier( this );
 }
 
@@ -39,17 +39,14 @@ void ClusterNode::evt_session_close( Session * session)
         return;
     }
 
-    if ( this->notifier_ != nullptr )
-    {
-        this->notifier_->evt_clustersession_close( this );
-    }
+    SAFE_NOTIFY( this->notifier_ , evt_clustersession_close , this );
 
     this->on_close();
 }
 
-void ClusterNode::evt_session_receive_data( Session * , Buffer & buffer )
+void ClusterNode::evt_session_receive_data( Session * , UPTR<Buffer> buffer )
 {
-    circle_buffer_.push( buffer );
+    circle_buffer_.push( MOVE( buffer ) );
     this->parse_message();
 }
 
@@ -61,8 +58,8 @@ void ClusterNode::evt_session_sent_complete( Session * , size_t size )
 size_t ClusterNode::id()
 { 
     return this->session_ == nullptr ? 
-        0 : 
-        this->session_->id();
+           0 : 
+           this->session_->id();
 };
 
 void ClusterNode::on_message( UPTR<Message> msg )

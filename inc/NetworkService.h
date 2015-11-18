@@ -64,7 +64,7 @@ public:
     void stop                                  ( );
 
     void data                                  ( void* value ) 
-                                               { this->data = MOVE( value ); };
+                                               { this->data_ = value; };
     
     void* data                                 ( )
                                                { return this->data_; };

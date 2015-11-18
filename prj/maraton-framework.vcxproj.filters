@@ -126,10 +126,13 @@
     <ClInclude Include="..\inc\Timer.h">
       <Filter>inc</Filter>
     </ClInclude>
-    <ClInclude Include="..\inc\HTTPFeature.h">
+    <ClInclude Include="..\inc\Array.h">
       <Filter>inc</Filter>
     </ClInclude>
-    <ClInclude Include="..\inc\Array.h">
+    <ClInclude Include="..\inc\HTTP.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\IClusterNode.h">
       <Filter>inc</Filter>
     </ClInclude>
   </ItemGroup>
@@ -186,7 +189,7 @@
     <ClCompile Include="..\src\MasterBaseFeature.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\HTTPFeature.cpp">
+    <ClCompile Include="..\src\HTTP.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

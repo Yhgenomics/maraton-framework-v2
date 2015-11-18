@@ -72,7 +72,7 @@ public:                                                     \
 #define MAKE_SPTR(__t__,...) std::make_shared< __t__ >(__VA_ARGS__)
 #define MOVE(__T__) std::move(__T__)
 
-#define SCAST(__t__,__i__) static_cast< __T__ >( __i__ )
+#define SCAST(__t__,__i__) static_cast< __t__ >( __i__ )
 
 // Debug mode definitions
 #if DEBUG_MODE

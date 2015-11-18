@@ -48,6 +48,77 @@ bool CircleBuffer::push( Buffer & buf )
     return true;
 }
 
+bool CircleBuffer::push( const char * data , size_t len )
+{
+    if ( available_length() < len )
+    {
+        throw "[CircleBuffer.cpp] not enough buffer";
+    }
+
+    if ( ( tail_ + len ) > this->buffer_length_ )
+    {
+        char* ptail = this->circle_buffer_ + this->tail_;
+        size_t delta_len = this->buffer_length_ - tail_;
+        memcpy( ptail, data, delta_len );
+
+        memcpy( this->circle_buffer_, 
+                data + delta_len, 
+                len  - delta_len );
+    }
+    else
+    {
+        char* ptail = this->circle_buffer_ + this->tail_;
+
+        memcpy( ptail, data , len );
+    }
+
+    this->tail_             = ( this->tail_ + len ) % this->buffer_length_;
+    this->used_len_         += len;
+    this->available_len_    = this->buffer_length_ - this->used_len_;
+
+    return true;
+}
+
+bool CircleBuffer::push( UPTR<Buffer> buf )
+{
+
+    if ( available_length() < buf->size() )
+    {
+        throw "[CircleBuffer.cpp] not enough buffer";
+    }
+
+    if ( ( tail_ + buf->size() ) > this->buffer_length_ )
+    {
+        char* ptail = this->circle_buffer_ + this->tail_;
+        size_t delta_len = this->buffer_length_ - tail_;
+        memcpy( ptail, buf->data(), delta_len );
+
+        memcpy( this->circle_buffer_, 
+                buf->data() + delta_len, 
+                buf->size()  - delta_len );
+    }
+    else
+    {
+        char* ptail = this->circle_buffer_ + this->tail_;
+
+        memcpy( ptail, buf->data() , buf->size() );
+    }
+
+    this->tail_             = ( this->tail_ + buf->size() ) % this->buffer_length_;
+    this->used_len_         += buf->size();
+    this->available_len_    = this->buffer_length_ - this->used_len_;
+
+    return true;
+}
+
+void CircleBuffer::clear()
+{
+    this->used_len_ = 0;
+    this->available_len_ = this->buffer_length_;
+
+    this->tail_ = this->head_ = 0;
+}
+
 UPTR<Buffer> CircleBuffer::pop( size_t len )
 {
     if ( len > this->used_length() )

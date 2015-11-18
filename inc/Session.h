@@ -16,9 +16,8 @@ class ISessionSubscribe
 public:
 
     virtual void evt_session_close          ( Session* ) { };
-    virtual void evt_session_receive_data   ( Session*, Buffer & buffer ) { };
+    virtual void evt_session_receive_data   ( Session*, UPTR<Buffer> buffer ) { };
     virtual void evt_session_sent_complete  ( Session*, size_t size ) { };
-
 };
 
 class Session : 
@@ -36,13 +35,14 @@ public:
     std::string     ip      ( );
     NetworkService* service ( ); 
     virtual void    send    ( Buffer & buffer );
+    virtual void    send    ( UPTR<Buffer> buffer );
 
 protected:
 
-    virtual void    on_connected( );
-    virtual void    on_receive_data( Buffer & buffer );
-    virtual void    on_close();
-    virtual void    on_send_finish( size_t size );
+    virtual void    on_connected    ( );
+    virtual void    on_receive_data ( UPTR<Buffer> buffer );
+    virtual void    on_close        ( );
+    virtual void    on_send_finish  ( size_t size );
 
 private:
 

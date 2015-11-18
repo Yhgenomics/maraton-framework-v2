@@ -36,14 +36,18 @@
 
 int main()
 {
+    DEF_UPTR( HTTPRequest , req );
 
-    int it = 0;
+    HTTPClientFeature::instance()->send_request( "baidu.com" , MOVE( req ) ,
+    [ ] ( UPTR<HTTPRequest> req , UPTR<HTTPResponse> rep , UPTR<Buffer> data )
+    {
 
-    it = MOVE( 12234 );
+    } );
+   
 
     //MasterFeature feature( "0.0.0.0" , 90 );
 
-    //Server::run();
+    Server::run();
 
     return 0;
 }

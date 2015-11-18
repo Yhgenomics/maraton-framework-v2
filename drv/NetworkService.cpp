@@ -142,9 +142,10 @@ void NetworkService::uv_callback_read( uv_stream_t * stream ,
         return;
     }
     
-    Buffer buffer( buf->base , nread );
-    
-    session->on_receive_data( buffer );
+    //Buffer buffer( buf->base , nread );
+
+    auto data = MAKE_UPTR( Buffer , buf->base , nread );
+    session->on_receive_data( MOVE( data ) );
 
     delete buf->base;
 }

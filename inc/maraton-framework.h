@@ -32,4 +32,5 @@
 #include "ClusterFeature.h"
 #include "MasterBaseFeature.h"
 #include "ExecutorBaseFeature.h"
+#include "HTTP.h"
 

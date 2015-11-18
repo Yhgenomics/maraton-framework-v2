@@ -31,7 +31,8 @@
     <ClInclude Include="..\inc\EventNotifier.h" />
     <ClInclude Include="..\inc\ExecutorBaseFeature.h" />
     <ClInclude Include="..\inc\Feature.h" />
-    <ClInclude Include="..\inc\HTTPFeature.h" />
+    <ClInclude Include="..\inc\HTTP.h" />
+    <ClInclude Include="..\inc\IClusterNode.h" />
     <ClInclude Include="..\inc\json.hpp" />
     <ClInclude Include="..\inc\Logger.h" />
     <ClInclude Include="..\inc\maraton-framework.h" />
@@ -75,7 +76,7 @@
     <ClCompile Include="..\src\ClusterFeature.cpp" />
     <ClCompile Include="..\src\ClusterNode.cpp" />
     <ClCompile Include="..\src\ExecutorBaseFeature.cpp" />
-    <ClCompile Include="..\src\HTTPFeature.cpp" />
+    <ClCompile Include="..\src\HTTP.cpp" />
     <ClCompile Include="..\src\MasterBaseFeature.cpp" />
     <ClCompile Include="..\src\Message.cpp" />
     <ClCompile Include="..\src\Timer.cpp" />
@@ -102,7 +103,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>

@@ -9,11 +9,6 @@ void Operator::stop()
               Operator::uv_callback_close );
 }
 
-void Operator::do_work()
-{
-
-}
-
 void Operator::uv_callback_connected( uv_connect_t * req , 
                                       int status )
 {
@@ -38,7 +33,6 @@ void Operator::uv_callback_connected( uv_connect_t * req ,
     LOG_DEBUG( "%s:%d connected" , opt->address_.c_str() , opt->port_ );
 
     Session* session = opt->create_session( );
-   
     session->uv_on_connected( opt );
      
     LOG_DEBUG_UV( result );
@@ -70,10 +64,10 @@ void Operator::uv_callback_new_connection( uv_stream_t * server ,
         return;
     }
 
-    result = uv_tcp_init( opt->uv_loop_ , &session->uv_tcp_ );
+    result = uv_tcp_init( opt->uv_loop_ , session->uv_tcp_ );
     LOG_DEBUG_UV( result );
     
-    result = uv_accept( server , (uv_stream_t*) &session->uv_tcp_ );
+    result = uv_accept( server , (uv_stream_t*) session->uv_tcp_ );
     LOG_DEBUG_UV( result );
 
     if ( result == 0 )

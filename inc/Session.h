@@ -20,8 +20,8 @@ class Session
 {
 public:
 
-    Session( ) { this->uv_tcp_.data = this; };
-    virtual ~Session(){ };
+    Session( );
+    virtual ~Session();
 
     void send   ( uptr<Buffer> data );
     void close  ( );
@@ -44,10 +44,10 @@ private:
         Session *           session;
     };
 
+    uv_tcp_t* uv_tcp_  = nullptr;
+    
     void uv_on_connected   ( Operator* opt );
     void uv_on_close       ( );
-
-    uv_tcp_t uv_tcp_  = { 0 };
 
     static void uv_alloc_callback ( uv_handle_t * handle ,
                                     size_t suggested_size ,
@@ -61,6 +61,8 @@ private:
     static void uv_write_callback ( uv_write_t * req, int status );
 
     friend class Operator;
+    friend class Listener;
+    friend class Connector;
 };
 
 NS_MARATON_END

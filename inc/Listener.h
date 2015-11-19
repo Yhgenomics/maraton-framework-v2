@@ -27,13 +27,10 @@ protected:
 
     virtual void do_work() override;
 
-    virtual void on_new_session( Session * session ) override;
-
-    virtual void on_close_session( Session * session ) override;
-
-    virtual Session * create_session() override;
-
-    virtual void on_close() override;
+    virtual void on_new_session( Session * session ) = 0; 
+    virtual void on_close_session( Session * session ) override; 
+    virtual Session * create_session() = 0; 
+    virtual void on_close() = 0;
 };
 
 NS_MARATON_END

@@ -28,18 +28,11 @@ void Listener::do_work()
                           0 ,
                           Operator::uv_callback_new_connection );
     LOG_DEBUG_UV( result );
-}
-void Listener::on_new_session( Session * session )
-{
-}
+} 
+
 void Listener::on_close_session( Session * session )
 {
+    SAFE_DELETE( session->uv_tcp_ );
 }
-Session * Listener::create_session()
-{
-    return nullptr;
-}
-void Listener::on_close()
-{
-}
+ 
 NS_MARATON_END

@@ -3,6 +3,16 @@
 
 NS_MARATON_BEGIN
 
+Session::Session( )
+{
+    this->uv_tcp_ = new uv_tcp_t( );
+}
+
+Session::~Session( )
+{
+
+}
+
 void Session::send( uptr<Buffer> data )
 {
     write_token_t* write_token  = new write_token_t;
@@ -16,7 +26,7 @@ void Session::send( uptr<Buffer> data )
     memcpy( write_token->buffer->base, data->data(), data->size() );
     
     auto r  = uv_write( write_token->writer, 
-                        (uv_stream_t*) &this->uv_tcp_, 
+                        (uv_stream_t*) this->uv_tcp_, 
                         write_token->buffer, 
                         1,  
                         Session::uv_write_callback );
@@ -54,8 +64,10 @@ void Session::uv_on_connected( Operator * opt )
 {   
     this->parent_ = opt;
     this->on_connect();
-
-    int result = uv_read_start( (uv_stream_t*) &this->uv_tcp_ , Session::uv_alloc_callback , Session::uv_read_callback);
+    SAFE_DELETE( this->uv_tcp_ );
+    this->uv_tcp_ = &opt->uv_tcp_;
+    this->uv_tcp_->data = this;
+    int result = uv_read_start( (uv_stream_t*) this->uv_tcp_ , Session::uv_alloc_callback , Session::uv_read_callback);
     LOG_DEBUG_UV( result );
 }             
               
@@ -84,7 +96,7 @@ void Session::uv_read_callback( uv_stream_t * stream , ssize_t nread , const uv_
     if ( nread < 0 )
     {
         delete buf->base;
-        uv_close( (uv_handle_t*)&session->uv_tcp_ , Session::uv_close_callback);
+        uv_close( (uv_handle_t*)session->uv_tcp_ , Session::uv_close_callback);
         return;
     }
 
@@ -108,7 +120,6 @@ void Session::uv_close_callback( uv_handle_t * handler )
     session->uv_on_close();
 
     SAFE_DELETE( session );
-}
-
+} 
 
 NS_MARATON_END

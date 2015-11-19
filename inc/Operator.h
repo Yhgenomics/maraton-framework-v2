@@ -38,6 +38,13 @@ public:
 
 protected:
 
+    virtual void        do_work( )                           = 0;
+    virtual void        on_new_session( Session* session )   = 0;
+    virtual void        on_close_session( Session* session ) = 0;
+    virtual Session*    create_session( )                    = 0;
+    virtual void        on_close( )                          = 0;
+
+    int                 index_                               = 0;
     uv_tcp_t            uv_tcp_                              = { 0 };
     uv_connect_t        uv_connect_                          = { 0 };
     uv_getaddrinfo_t    uv_getaddrinfo_                      = { 0 };
@@ -47,13 +54,7 @@ protected:
     sockaddr_in         addr_in                              = { 0 };
     std::string         address_                             = "";
     std::string         ip_                                  = "";
-    int                 port_                                = 0;
-                                                             
-    virtual void        do_work( )                           = 0;
-    virtual void        on_new_session( Session* session )   = 0;
-    virtual void        on_close_session( Session* session ) = 0;
-    virtual Session*    create_session( )                    = 0;
-    virtual void        on_close( )                          = 0;
+    int                 port_                                = 0; 
 
     static void uv_callback_connected      ( uv_connect_t * req , 
                                              int status );

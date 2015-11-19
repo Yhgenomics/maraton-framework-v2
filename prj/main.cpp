@@ -46,6 +46,16 @@ protected:
         auto ret = new TSession( );
         return scast<Session*>( ret );
     };
+     
+    virtual void on_new_session( Session * session ) override
+    {
+
+    }
+
+    virtual void on_close( ) override
+    {
+
+    }
 
     virtual void on_close_session( Session * session ) override
     {
@@ -70,7 +80,15 @@ protected:
     {
         auto ret = new TSession( );
         return scast<MRT::Session*>( ret );
-    };
+    }; 
+
+    virtual void on_new_session( Session * session ) override
+    {
+    }
+
+    virtual void on_close( ) override
+    {
+    }
 
     virtual void on_close_session( Session * session ) override
     {
@@ -78,14 +96,23 @@ protected:
     }
 };
 
+void test_listen()
+{
+        Maraton::instance( )->regist( make_uptr( TListener , "localhost" , 4455 ) );
+}
+void test_connect()
+{
+    for ( size_t i = 0; i < 1000; i++ )
+    {
+        Maraton::instance( )->regist( make_uptr( TConnector , "localhost" , 4455 ) );
+    }
+}
+
 int main( )
 {
     while ( 1 )
     {
-        for ( size_t i = 0; i < 1000; i++ )
-        {
-            Maraton::instance( )->regist( make_uptr( TConnector , "10.0.0.10" , 4455 ) );
-        }
+        test_connect( );
         Maraton::instance( )->loop( );
     }
 

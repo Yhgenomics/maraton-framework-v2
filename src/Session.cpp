@@ -60,9 +60,22 @@ void Session::close()
   
 }
 
+void Session::uv_on_accepted( Operator * opt )
+{
+    this->parent_       = opt;
+    this->uv_tcp_->data = this;
+    this->session_mode_ = SessionMode::Server;
+
+    this->on_connect();
+    int result = uv_read_start( (uv_stream_t*) this->uv_tcp_ , Session::uv_alloc_callback , Session::uv_read_callback);
+    LOG_DEBUG_UV( result );
+}
+
 void Session::uv_on_connected( Operator * opt )
 {   
     this->parent_ = opt;
+    this->session_mode_ = SessionMode::Client;
+
     this->on_connect();
     SAFE_DELETE( this->uv_tcp_ );
     this->uv_tcp_ = &opt->uv_tcp_;
@@ -75,6 +88,11 @@ void Session::uv_on_close()
 {   
     this->on_close();
     this->parent_->on_close_session( this );
+
+    if ( this->session_mode_ == SessionMode::Server )
+    {
+        SAFE_DELETE( this->uv_tcp_ );
+    }
 }             
                
 void Session::uv_alloc_callback( uv_handle_t * handle , size_t suggested_size , uv_buf_t * buf )

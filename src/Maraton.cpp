@@ -2,23 +2,25 @@
 
 NS_MARATON_BEGIN
 
-void Maraton::regist( uptr<Operator> listener )
+void Maraton::regist( uptr<Operator> opt )
 {
-    listener->addrinfo_.ai_family       = PF_INET;
-    listener->addrinfo_.ai_socktype     = SOCK_STREAM;
-    listener->addrinfo_.ai_protocol     = IPPROTO_TCP;
-    listener->addrinfo_.ai_flags        = 0;
-    listener->uv_getaddrinfo_.data      = listener.get( );
-    listener->uv_loop_                  = this->uv_loop( );
+    opt->addrinfo_.ai_family       = PF_INET;
+    opt->addrinfo_.ai_socktype     = SOCK_STREAM;
+    opt->addrinfo_.ai_protocol     = IPPROTO_TCP;
+    opt->addrinfo_.ai_flags        = 0;
+    opt->uv_getaddrinfo_.data      = opt.get( );
+    opt->uv_loop_                  = this->uv_loop( );
 
-    int r = uv_getaddrinfo( listener->uv_loop_ ,
-                            &listener->uv_getaddrinfo_ ,
+    int r = uv_getaddrinfo( opt->uv_loop_ ,
+                            &opt->uv_getaddrinfo_ ,
                             Maraton::uv_process_resolved ,
-                            listener->address_.c_str( ) ,
+                            opt->address_.c_str( ) ,
                             NULL ,
-                            &listener->addrinfo_ );
+                            &opt->addrinfo_ );
 
-    elemnts_.push_back( move_ptr( listener ) );
+    opt->index_ = elements_index_;
+    elements_[opt->index_] = move_ptr( opt );
+    elements_index_ = ( elements_index_ + 1 ) % MAX_CONNECTION_SIZE;
 }
 
 void Maraton::uv_process_resolved( uv_getaddrinfo_t * req , int status , addrinfo * res )
@@ -42,18 +44,13 @@ void Maraton::uv_process_resolved( uv_getaddrinfo_t * req , int status , addrinf
                  &opt->addr_in );
     opt->ip_ = ip;
     opt->do_work();
+
+    delete res;
 }
 
 void Maraton::unregist( const Operator * opt )
 {
-    for ( auto itr=elemnts_.begin( ); itr != elemnts_.end( ); itr++ )
-    {
-        if ( ( *itr ).get( ) == opt )
-        {
-            elemnts_.erase( itr );
-            break;
-        }
-    }
+    elements_[opt->index_] = nullptr; 
 }
 
 void Maraton::loop( )

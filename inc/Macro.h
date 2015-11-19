@@ -12,8 +12,9 @@
 #include "Logger.h"
 
 // Cast values defination
-#define CIRCLE_BUFFER_SIZE 1024*1024
-#define MAX_PATH_LEN       1024
+#define CIRCLE_BUFFER_SIZE  1024*1024
+#define MAX_PATH_LEN        1024
+#define MAX_CONNECTION_SIZE 2560
 
 #define NS_NAME MRT
 

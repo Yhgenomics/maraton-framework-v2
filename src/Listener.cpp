@@ -25,14 +25,14 @@ void Listener::do_work()
     LOG_DEBUG_UV( result );
 
     result = uv_listen  ( ( uv_stream_t* ) &this->uv_tcp_ ,
-                          0 ,
+                          10000 ,
                           Operator::uv_callback_new_connection );
     LOG_DEBUG_UV( result );
 } 
 
 void Listener::on_close_session( Session * session )
 {
-    SAFE_DELETE( session->uv_tcp_ );
+
 }
  
 NS_MARATON_END

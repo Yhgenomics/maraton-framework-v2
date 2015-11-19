@@ -73,7 +73,7 @@ void Operator::uv_callback_new_connection( uv_stream_t * server ,
     if ( result == 0 )
     {
         opt->on_new_session( session );
-        session->uv_on_connected( opt );
+        session->uv_on_accepted( opt );
     }
     else
     {

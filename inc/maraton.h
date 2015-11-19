@@ -22,11 +22,11 @@ class Maraton
 {
 public:
 
-    static Maraton* instance()
+    static Maraton* instance( )
     {
         static Maraton* inst = nullptr;
-        
-        if ( inst == nullptr)
+
+        if ( inst == nullptr )
         {
             static Maraton maraton;
             inst = &maraton;
@@ -35,18 +35,22 @@ public:
         return inst;
     }
 
-    void regist     ( uptr<Operator> listener );
-    void unregist   ( const Operator* opt );
-    void loop       ( );
+    void regist( uptr<Operator> listener );
+    void unregist( const Operator* opt );
+    void loop( );
 
 private:
 
-    uv_loop_t* uv_loop();
+    uv_loop_t*          uv_loop( );
+    uptr<Operator>      elements_[MAX_CONNECTION_SIZE];
+    int                 elements_index_                 = 0;
 
-    std::vector<sptr<Operator>> elemnts_;
-
-    Maraton(){};
-    ~Maraton(){};
+    Maraton( )
+    {
+    };
+    ~Maraton( )
+    {
+    };
 
     static void uv_process_resolved( uv_getaddrinfo_t * req , int status , addrinfo * res );
 };

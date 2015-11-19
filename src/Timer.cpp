@@ -1,4 +1,4 @@
-#include "..\inc\Timer.h"
+#include "Timer.h"
 
 size_t Timer::tick()
 {

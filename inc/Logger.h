@@ -5,11 +5,12 @@
 * Description:
 * * * * * * * * * * * * * * * */
 
-#ifndef LOGER_H_
-#define LOGER_H_ 
+#ifndef MRT_LOGER_H_
+#define MRT_LOGER_H_ 
 
 #include "stdio.h"
 #include <stdarg.h>
+#include "Timer.h"
 
 class Logger
 {
@@ -20,9 +21,9 @@ public:
     {
 
 #ifdef _WIN32
-        printf( "[SYS] " );
+        printf( "[SYS] %lld: ", Timer::tick() );
 #else
-        printf( "\033[1;33m[SYS] " );
+        printf( "\033[1;33m[SYS] %lld: ", Timer::tick() );
 #endif
 
         printf( fmt, args... );
@@ -39,9 +40,9 @@ public:
     static void error( const char* fmt, Types... args )
     {
 #ifdef _WIN32
-        printf( "[ERROR] " );
+        printf( "[ERROR] %lld: ", Timer::tick() );
 #else
-        printf( "\033[0;31m[ERROR] " );
+        printf( "\033[0;31m[ERROR] %lld: ", Timer::tick() );
 #endif
 
         printf( fmt , args... );
@@ -56,6 +57,7 @@ public:
     template<typename ...Types>
     static void log( const char* fmt, Types... args )
     { 
+        printf( "%lld: ", Timer::tick() );
         printf( fmt , args... );
         printf( "\r\n" );
     }
@@ -65,4 +67,4 @@ private:
     ~Logger() {};
 };
 
-#endif // !LOGER_H_ 
+#endif // !MRT_LOGER_H_ 

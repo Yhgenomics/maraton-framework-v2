@@ -1,27 +1,56 @@
 /* * * * * * * * * * * * * * * *
 * YHGenomics Inc.
 * Author     : yang shubo
-* Date       : 2015-11-16
+* Date       : 2015-11-19
 * Description:
 * * * * * * * * * * * * * * * */
 
 #ifndef MARATON_H_
 #define MARATON_H_
 
-#include "Buffer.h"
-#include "CircleBuffer.h"
-#include "NetworkService.h"
-#include "Session.h"
-#include "AsyncWorker.h"
-#include "SyncWorker.h"
-#include "Configuration.h"
-#include "Define.h"
-#include "json.hpp"
-#include "Logger.h"
-#include "EventNotifier.h"
-#include "Utils.h"
+#include <functional>
+#include <vector>
 
-#include "Server.h"
-#include "Feature.h"
+#include "Macro.h"
+#include "Operator.h"
+#include "Listener.h"
+#include "Connector.h"
+
+NS_MARATON_BEGIN
+
+class Maraton
+{
+public:
+
+    static Maraton* instance()
+    {
+        static Maraton* inst = nullptr;
+        
+        if ( inst == nullptr)
+        {
+            static Maraton maraton;
+            inst = &maraton;
+        }
+
+        return inst;
+    }
+
+    void regist     ( uptr<Operator> listener );
+    void unregist   ( const Operator* opt );
+    void loop       ( );
+
+private:
+
+    uv_loop_t* uv_loop();
+
+    std::vector<sptr<Operator>> elemnts_;
+
+    Maraton(){};
+    ~Maraton(){};
+
+    static void uv_process_resolved( uv_getaddrinfo_t * req , int status , addrinfo * res );
+};
+
+NS_MARATON_END
 
 #endif // !MARATON_H_

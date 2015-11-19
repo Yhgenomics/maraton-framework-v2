@@ -20,7 +20,6 @@ class Timer
 public:
 
     static size_t tick();
-     
 };
 
 #endif // !TIMER_HPP_

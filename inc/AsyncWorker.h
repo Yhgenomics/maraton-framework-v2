@@ -9,7 +9,11 @@
 #define ASYNC_WORKER_H_ 
 
 #include <functional>
+
+#include "Macro.h"
 #include "uv.h"
+
+NS_MARATON_BEGIN
 
 class AsyncWorker;
 
@@ -51,6 +55,8 @@ private:
     static void uv_process_work_callback( uv_work_t* req );
     static void uv_process_after_work_callback( uv_work_t* req , int status );
 };
+
+NS_MARATON_END
 
 #endif // !ASYNC_WORKER_H_ 
  

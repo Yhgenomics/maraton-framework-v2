@@ -1,48 +1,39 @@
-#ifndef SESSION_H_
-#define SESSION_H_
+/* * * * * * * * * * * * * * * *
+* YHGenomics Inc.
+* Author     : yang shubo
+* Date       : 2015-11-19
+* Description:
+* * * * * * * * * * * * * * * */
 
-#include <functional>
+#ifndef MRT_SESSION_H_
+#define MRT_SESSION_H_
 
-#include "uv.h"
-#include "Define.h"
+#include "Macro.h"
 #include "Buffer.h"
-#include "EventNotifier.h"
+#include "uv.h"
 
-class NetworkService;
-class Session;
+NS_MARATON_BEGIN
 
-class ISessionSubscribe
+class Operator;
+
+class Session
 {
 public:
 
-    virtual void evt_session_close          ( Session* ) { };
-    virtual void evt_session_receive_data   ( Session*, UPTR<Buffer> buffer ) { };
-    virtual void evt_session_sent_complete  ( Session*, size_t size ) { };
-};
+    Session( ) { this->uv_tcp_.data = this; };
+    virtual ~Session(){ };
 
-class Session : 
-    public EventNotifier<ISessionSubscribe>
-{
-public:
-
-    Session( NetworkService* service_ );
-    virtual ~Session();
-    
-    void            close();
-
-    size_t          id      ( ) { return this->session_id_; };
-    std::string     host    ( );
-    std::string     ip      ( );
-    NetworkService* service ( ); 
-    virtual void    send    ( Buffer & buffer );
-    virtual void    send    ( UPTR<Buffer> buffer );
+    void send   ( uptr<Buffer> data );
+    void close  ( );
 
 protected:
+    
+    Operator* parent_ =  nullptr;
 
-    virtual void    on_connected    ( );
-    virtual void    on_receive_data ( UPTR<Buffer> buffer );
-    virtual void    on_close        ( );
-    virtual void    on_send_finish  ( size_t size );
+    virtual void on_read    ( uptr<Buffer> data ) = 0;
+    virtual void on_connect ( )                   = 0;
+    virtual void on_close   ( )                   = 0;
+    virtual void on_write   ( uptr<Buffer> data ) = 0;
 
 private:
 
@@ -53,17 +44,25 @@ private:
         Session *           session;
     };
 
-    NetworkService*                service_                = nullptr;
-    uv_tcp_t*               uv_tcp_                 = nullptr;
-    uv_connect_t*           uv_connect_             = nullptr;
-    char*                   recive_buffer_          = nullptr;
+    void uv_on_connected   ( Operator* opt );
+    void uv_on_close       ( );
 
-    size_t                  session_id_             = 0;
+    uv_tcp_t uv_tcp_  = { 0 };
 
-    static void             uv_prcoess_write_callback( uv_write_t* req, int status );
-    static size_t           create_session_id( );
+    static void uv_alloc_callback ( uv_handle_t * handle ,
+                                    size_t suggested_size ,
+                                    uv_buf_t * buf  );
+                         
+    static void uv_read_callback  ( uv_stream_t * stream ,
+                                    ssize_t nread ,
+                                    const uv_buf_t * buf);
+    static void uv_close_callback ( uv_handle_t* handler );
 
-    friend class NetworkService;
+    static void uv_write_callback ( uv_write_t * req, int status );
+
+    friend class Operator;
 };
 
-#endif // SESSION_H_
+NS_MARATON_END
+
+#endif // !MRT_SESSION_H_

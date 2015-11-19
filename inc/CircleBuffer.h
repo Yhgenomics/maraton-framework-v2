@@ -9,23 +9,25 @@
 #define NETWORK_DATA_BUILDER_H_
 
 #include <memory.h>
-#include <Define.h>
+#include <Macro.h>
 #include "Buffer.h"
- 
+
+NS_MARATON_BEGIN
+
 class CircleBuffer
 {
 public:
 
-    CircleBuffer();
-    
-    ~CircleBuffer();
+    CircleBuffer ( );
+
+    ~CircleBuffer( );
 
     virtual bool push           ( Buffer & buf );
     virtual bool push           ( const char* data , size_t len );
-    virtual bool push           ( UPTR<Buffer> buf );
+    virtual bool push           ( uptr<Buffer> buf );
     void         clear          ( );
 
-    virtual UPTR<Buffer> pop    ( size_t len );
+    virtual uptr<Buffer> pop    ( size_t len );
 
     size_t length               ( ) { return this->buffer_length_; };
     size_t used_length          ( ) { return this->used_len_; };
@@ -47,5 +49,7 @@ private:
 
     char* circle_buffer_        = nullptr;
 };
+
+NS_MARATON_END
 
 #endif // !NETWORK_DATA_BUILDER_H_

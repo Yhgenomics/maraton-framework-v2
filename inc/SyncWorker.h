@@ -9,8 +9,11 @@
 #define SYNC_WORKER_H_
 
 #include <functional>
+
 #include "uv.h"
-#include "Define.h"
+#include "Macro.h"
+
+NS_MARATON_BEGIN
 
 class SyncWorker
 {
@@ -41,12 +44,14 @@ private:
 
     bool                            finished_       = false;
     void*                           data_           = nullptr;
-    uv_timer_t                      timer_;
+    uv_timer_t                      timer_          = { 0 };
     size_t                          loop_time_      = 1;
 
     syncworker_callback_t           cb_work_        = nullptr;
     syncworker_after_callback_t     cb_after_work_  = nullptr;
     size_t                          loop_count_     = 1;
 };
+
+NS_MARATON_END
 
 #endif // !SYNC_WORKER_H_

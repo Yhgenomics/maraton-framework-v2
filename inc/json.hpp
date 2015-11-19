@@ -4,7 +4,7 @@
 These pages contain the API documentation of JSON for Modern C++, a C++11
 header-only JSON class.
 
-Class @ref nlohmann::basic_json is a good entry point for the documentation.
+Class @ref MRT::basic_json is a good entry point for the documentation.
 
 @copyright The code is licensed under the [MIT
 License](http://opensource.org/licenses/MIT):
@@ -31,12 +31,12 @@ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-@author [Niels Lohmann](http://nlohmann.me)
-@see https://github.com/nlohmann/json to download the source code
+@author [Niels Lohmann](http://MRT.me)
+@see https://github.com/MRT/json to download the source code
 */
 
-#ifndef NLOHMANN_JSON_HPP
-#define NLOHMANN_JSON_HPP
+#ifndef MRT_JSON_HPP
+#define MRT_JSON_HPP
 
 #include <algorithm>
 #include <array>
@@ -73,9 +73,9 @@ SOFTWARE.
 
 /*!
 @brief namespace for Niels Lohmann
-@see https://github.com/nlohmann
+@see https://github.com/MRT
 */
-namespace nlohmann
+namespace MRT
 {
     typedef size_t ssize_t;
     /*!
@@ -4922,7 +4922,7 @@ namespace nlohmann
 
         @note This structure could easily be a union, but MSVC currently does not
         allow unions members with complex constructors, see
-        https://github.com/nlohmann/json/pull/105.
+        https://github.com/MRT/json/pull/105.
         */
         struct internal_iterator
         {
@@ -7255,10 +7255,10 @@ namespace std
     @brief exchanges the values of two JSON objects
     */
     template <>
-    inline void swap( nlohmann::json& j1,
-                      nlohmann::json& j2 ) noexcept(
-        is_nothrow_move_constructible<nlohmann::json>::value and
-        is_nothrow_move_assignable<nlohmann::json>::value
+    inline void swap( MRT::json& j1,
+                      MRT::json& j2 ) noexcept(
+        is_nothrow_move_constructible<MRT::json>::value and
+        is_nothrow_move_assignable<MRT::json>::value
         )
     {
         j1.swap( j2 );
@@ -7266,13 +7266,13 @@ namespace std
 
     /// hash value for JSON objects
     template <>
-    struct hash<nlohmann::json>
+    struct hash<MRT::json>
     {
         /// return a hash value for a JSON object
-        std::size_t operator()( const nlohmann::json& j ) const
+        std::size_t operator()( const MRT::json& j ) const
         {
             // a naive hashing via the string representation
-            const auto& h = hash<nlohmann::json::string_t>();
+            const auto& h = hash<MRT::json::string_t>();
             return h( j.dump() );
         }
     };
@@ -7288,9 +7288,9 @@ no parse error occurred.
 @param[in] s  a string representation of a JSON object
 @return a JSON object
 */
-inline nlohmann::json operator "" _json( const char* s, std::size_t )
+inline MRT::json operator "" _json( const char* s, std::size_t )
 {
-    return nlohmann::json::parse( reinterpret_cast<nlohmann::json::string_t::value_type*>
+    return MRT::json::parse( reinterpret_cast<MRT::json::string_t::value_type*>
                                   ( const_cast<char*>( s ) ) );
 }
 

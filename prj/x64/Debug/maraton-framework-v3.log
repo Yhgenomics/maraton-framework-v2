@@ -1,0 +1,24 @@
+﻿生成启动时间为 2015/11/19 17:17:43。
+     1>项目“D:\Git\maraton-framework-v3\prj\maraton-framework-v3.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /ZI /nologo /W3 /WX- /Od /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Debug\\" /Fd"x64\Debug\vc140.pdb" /Gd /TP /errorReport:prompt main.cpp
+         main.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Git\maraton-framework-v3\prj\x64\Debug\maraton-framework-v3.exe" /INCREMENTAL /NOLOGO libuv.lib advapi32.lib iphlpapi.lib psapi.lib shell32.lib userenv.lib ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"D:\Git\maraton-framework-v3\prj\x64\Debug\maraton-framework-v3.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Git\maraton-framework-v3\prj\x64\Debug\maraton-framework-v3.lib" /MACHINE:X64 x64\Debug\AsyncWorker.obj
+         x64\Debug\Buffer.obj
+         x64\Debug\CircleBuffer.obj
+         x64\Debug\Configuration.obj
+         x64\Debug\Connector.obj
+         x64\Debug\Listener.obj
+         x64\Debug\Maraton.obj
+         x64\Debug\Operator.obj
+         x64\Debug\Session.obj
+         x64\Debug\SyncWorker.obj
+         x64\Debug\Timer.obj
+         x64\Debug\main.obj
+         maraton-framework-v3.vcxproj -> D:\Git\maraton-framework-v3\prj\x64\Debug\maraton-framework-v3.exe
+     1>已完成生成项目“D:\Git\maraton-framework-v3\prj\maraton-framework-v3.vcxproj”(Build 个目标)的操作。
+
+已成功生成。
+
+已用时间 00:00:01.27

@@ -32,7 +32,7 @@ class TConnector :
     public Connector
 {
 public:
-   
+
     TConnector( std::string address , int port )
         : Connector( address , port )
     {
@@ -41,23 +41,20 @@ public:
 
 protected:
 
-    virtual Session * create_session( ) override
+    virtual Session* create_session( ) override
     {
-        auto ret = new TSession( );
-        return scast<Session*>( ret );
+        return new TSession( );
     };
-     
+
     virtual void on_new_session( Session * session ) override
     {
 
     }
-
-    virtual void on_close( ) override
+    virtual void on_close_session( Session * session ) override
     {
 
     }
-
-    virtual void on_close_session( Session * session ) override
+    virtual void on_close( ) override
     {
 
     }
@@ -76,31 +73,33 @@ public:
 
 protected:
 
-    virtual Session * create_session( ) override
+    virtual Session* create_session( ) override
     {
-        auto ret = new TSession( );
-        return scast<MRT::Session*>( ret );
-    }; 
+        return new TSession( );
+    };
 
     virtual void on_new_session( Session * session ) override
     {
-    }
 
-    virtual void on_close( ) override
-    {
     }
 
     virtual void on_close_session( Session * session ) override
     {
 
     }
+
+    virtual void on_close( ) override
+    {
+
+    }
 };
 
-void test_listen()
+void test_listen( )
 {
-        Maraton::instance( )->regist( make_uptr( TListener , "localhost" , 4455 ) );
+    Maraton::instance( )->regist( make_uptr( TListener , "localhost" , 4455 ) );
 }
-void test_connect()
+
+void test_connect( )
 {
     for ( size_t i = 0; i < 1000; i++ )
     {
@@ -112,7 +111,17 @@ int main( )
 {
     while ( 1 )
     {
-        test_connect( );
+        sptr<HTTPRequest> req = make_sptr( HTTPRequest , "/" , "GET" );
+
+        //uptr<WebConnector> conn = make_uptr( WebConnector , "www.baidu.com" , req , [ ] ( uptr<HTTPResponse> rep )
+        //{ 
+        //    auto p = rep;
+        //    printf( "Callback %d " ,   );
+        //} );
+        //Maraton::instance( )->regist( move_ptr( conn ) );
+
+        //test_listen( );
+        //test_connect( );
         Maraton::instance( )->loop( );
     }
 

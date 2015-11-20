@@ -43,6 +43,15 @@
     <ClCompile Include="..\src\Timer.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Message.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ClusterSession.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HTTP.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\inc\Connector.h">
@@ -88,6 +97,15 @@
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\inc\Timer.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Message.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\ClusterSession.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\HTTP.h">
       <Filter>inc</Filter>
     </ClInclude>
   </ItemGroup>

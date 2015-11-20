@@ -23,17 +23,17 @@ public:
     Session( );
     virtual ~Session();
 
-    void send   ( uptr<Buffer> data );
-    void close  ( );
+    void         close  ( );
 
 protected:
     
     Operator* parent_ =  nullptr;
 
-    virtual void on_connect ( )                   = 0;
-    virtual void on_read    ( uptr<Buffer> data ) = 0;
-    virtual void on_write   ( uptr<Buffer> data ) = 0;
-    virtual void on_close   ( )                   = 0;
+    virtual void send       ( uptr<Buffer> data );
+    virtual void on_connect ( )                   { };
+    virtual void on_read    ( uptr<Buffer> data ) { };
+    virtual void on_write   ( uptr<Buffer> data ) { };
+    virtual void on_close   ( )                   { };
 
 private:
     
@@ -54,9 +54,9 @@ private:
     uv_tcp_t*   uv_tcp_  = nullptr;
     SessionMode session_mode_ = SessionMode::Unknown;
     
-    void uv_on_accepted     ( Operator* opt );
-    void uv_on_connected    ( Operator* opt );
-    void uv_on_close        ( );
+    void uv_on_accepted           ( Operator* opt );
+    void uv_on_connected          ( Operator* opt );
+    void uv_on_close              ( );
 
     static void uv_alloc_callback ( uv_handle_t * handle ,
                                     size_t suggested_size ,

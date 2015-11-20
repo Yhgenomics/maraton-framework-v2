@@ -15,6 +15,11 @@ Session::~Session( )
 
 void Session::send( uptr<Buffer> data )
 {
+    if ( data == nullptr )
+    {
+        return;
+    }
+
     write_token_t* write_token  = new write_token_t;
     write_token->writer         = new uv_write_t();
     write_token->buffer         = new uv_buf_t();
@@ -44,10 +49,11 @@ void Session::uv_write_callback( uv_write_t * req , int status )
         return;
     }
     write_token_t* write_token = scast<write_token_t*>( req->data );
+    uv_buf_t* buffer           = write_token->buffer;
 
-    uv_buf_t* buffer            = write_token->buffer;
-
-    write_token->session->on_write( make_uptr( Buffer , write_token->buffer->base , write_token->buffer->len ) );
+    write_token->session->on_write( make_uptr( Buffer , 
+                                    write_token->buffer->base , 
+                                    write_token->buffer->len ) );
 
     SAFE_DELETE( buffer->base );
     SAFE_DELETE( buffer );
@@ -57,7 +63,7 @@ void Session::uv_write_callback( uv_write_t * req , int status )
 
 void Session::close()
 {
-  
+   uv_close( (uv_handle_t*)this->uv_tcp_ , Session::uv_close_callback);
 }
 
 void Session::uv_on_accepted( Operator * opt )
@@ -76,23 +82,22 @@ void Session::uv_on_connected( Operator * opt )
     this->parent_ = opt;
     this->session_mode_ = SessionMode::Client;
 
-    this->on_connect();
     SAFE_DELETE( this->uv_tcp_ );
     this->uv_tcp_ = &opt->uv_tcp_;
     this->uv_tcp_->data = this;
     int result = uv_read_start( (uv_stream_t*) this->uv_tcp_ , Session::uv_alloc_callback , Session::uv_read_callback);
     LOG_DEBUG_UV( result );
+    this->on_connect();
 }             
               
 void Session::uv_on_close()
 {   
     this->on_close();
-    this->parent_->on_close_session( this );
 
     if ( this->session_mode_ == SessionMode::Server )
     {
         SAFE_DELETE( this->uv_tcp_ );
-    }
+    } 
 }             
                
 void Session::uv_alloc_callback( uv_handle_t * handle , size_t suggested_size , uv_buf_t * buf )
@@ -136,6 +141,7 @@ void Session::uv_close_callback( uv_handle_t * handler )
     }
 
     session->uv_on_close();
+    session->parent_->on_close_session( session );
 
     SAFE_DELETE( session );
 } 

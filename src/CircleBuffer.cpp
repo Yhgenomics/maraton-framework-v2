@@ -55,6 +55,7 @@ bool CircleBuffer::push( const char * data , size_t len )
     if ( available_length() < len )
     {
         throw "[CircleBuffer.cpp] not enough buffer";
+        return false;
     }
 
     if ( ( tail_ + len ) > this->buffer_length_ )
@@ -87,6 +88,7 @@ bool CircleBuffer::push( uptr<Buffer> buf )
     if ( available_length() < buf->size() )
     {
         throw "[CircleBuffer.cpp] not enough buffer";
+        return false;
     }
 
     if ( ( tail_ + buf->size() ) > this->buffer_length_ )

@@ -3,51 +3,57 @@
 
 NS_MARATON_BEGIN
 
-void Operator::stop()
+void Operator::stop( )
 {
-    uv_close( (uv_handle_t*)&this->uv_tcp_ , 
+    uv_close( ( uv_handle_t* ) &this->uv_tcp_ ,
               Operator::uv_callback_close );
 }
 
-void Operator::uv_callback_connected( uv_connect_t * req , 
+Session * Operator::create_session( )
+{        
+    return new Session( );
+}
+
+void Operator::uv_callback_connected( uv_connect_t * req ,
                                       int status )
 {
     int result = 0;
     Operator * opt = scast < Operator* > ( req->data );
 
-    if( status != 0 )
+    if ( status != 0 )
     {
-        LOG_DEBUG_UV( status ); 
+        LOG_DEBUG_UV( status );
 
         opt->stop( );
 
         return;
     }
 
-    if( opt == nullptr )
+    if ( opt == nullptr )
     {
         LOG_DEBUG( "operator is nullptr" );
         return;
     }
 
-    LOG_DEBUG( "%s:%d connected" , opt->address_.c_str() , opt->port_ );
+    LOG_DEBUG( "%s:%d connected" , opt->address_.c_str( ) , opt->port_ );
 
-    Session* session = opt->create_session( );
+    auto session = opt->create_session( );
     session->uv_on_connected( opt );
-     
+    opt->on_new_session( session );
+
     LOG_DEBUG_UV( result );
 }
 
-void Operator::uv_callback_new_connection( uv_stream_t * server , 
+void Operator::uv_callback_new_connection( uv_stream_t * server ,
                                            int status )
 {
     int result = 0;
     auto opt = scast<Operator*>( server->data );
-    
-    if( status < 0 )
+
+    if ( status < 0 )
     {
         LOG_DEBUG_UV( status );
-        return ;
+        return;
     }
 
     if ( opt == nullptr )
@@ -56,8 +62,8 @@ void Operator::uv_callback_new_connection( uv_stream_t * server ,
         return;
     }
 
-    auto session = opt->create_session();
-     
+    auto session = opt->create_session( );
+
     if ( session == nullptr )
     {
         LOG_DEBUG( "can not create session!" );
@@ -66,19 +72,19 @@ void Operator::uv_callback_new_connection( uv_stream_t * server ,
 
     result = uv_tcp_init( opt->uv_loop_ , session->uv_tcp_ );
     LOG_DEBUG_UV( result );
-    
-    result = uv_accept( server , (uv_stream_t*) session->uv_tcp_ );
+
+    result = uv_accept( server , ( uv_stream_t* ) session->uv_tcp_ );
     LOG_DEBUG_UV( result );
 
     if ( result == 0 )
     {
-        opt->on_new_session( session );
-        session->uv_on_accepted( opt );
+        session->uv_on_accepted ( opt );
+        opt->on_new_session     ( session );
     }
     else
     {
-        session->uv_on_close();
-        opt->on_close_session( session );
+        session->uv_on_close    ( );
+        opt->on_close_session   ( session );
     }
 }
 
@@ -93,8 +99,8 @@ void Operator::uv_callback_close( uv_handle_t * handle )
         return;
     }
 
-    opt->on_close();
-    Maraton::instance()->unregist( opt );
+    opt->on_close( );
+    Maraton::instance( )->unregist( opt );
 }
 
 NS_MARATON_END

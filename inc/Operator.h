@@ -20,7 +20,7 @@ class Operator
 {
 public:
 
-    Operator(std::string address,int port)
+    Operator            (std::string address,int port)
     {
         this->address_              = address;
         this->port_                 = port;
@@ -29,21 +29,26 @@ public:
         this->uv_connect_.data      = this;
     }
 
-    virtual ~Operator( )
+    virtual ~Operator   ( )
     {
 
     }
 
-    virtual void stop();
+    std::string ip      ( )
+    {
+        return this->ip_;
+    }
+
+    virtual void stop   ( );
 
 protected:
 
     virtual void        do_work( )                           = 0;
+    virtual Session*    create_session( );
     virtual void        on_new_session( Session* session )   = 0;
     virtual void        on_close_session( Session* session ) = 0;
-    virtual Session*    create_session( )                    = 0;
     virtual void        on_close( )                          = 0;
-
+    
     int                 index_                               = 0;
     uv_tcp_t            uv_tcp_                              = { 0 };
     uv_connect_t        uv_connect_                          = { 0 };

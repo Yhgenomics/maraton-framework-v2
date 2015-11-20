@@ -14,9 +14,12 @@
 #include "Timer.h"
 #include "Configuration.h"
 #include "json.hpp"
+#include "Message.h"
+#include "HTTP.h"
 
 #include "Maraton.h"
 #include "Listener.h"
 #include "Connector.h"
 
 #include "Session.h"
+#include "ClusterSession.h"

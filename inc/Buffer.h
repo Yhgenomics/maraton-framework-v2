@@ -28,7 +28,8 @@ public:
     Buffer& operator =( Buffer& buffer );
     Buffer& operator =( Buffer&& buffer );
     Buffer& operator +=( const Buffer& buffer );
-   
+    char    operator[]( const size_t index );
+
     char*   data( );
     void    data( const char * value , size_t size );
     size_t  size( ) { return this->size_; }

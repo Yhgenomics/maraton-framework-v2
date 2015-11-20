@@ -58,6 +58,21 @@ Buffer & Buffer::operator+=( const Buffer & buffer )
     return *this;
 }
 
+char Buffer::operator[]( const size_t index )
+{
+    if ( this->data_ == nullptr )
+    {
+        throw "Buffer.data is nullptr";
+    }
+
+    if ( this->size_ <= index )
+    {
+        throw "Buffer out of size!!!";
+    }
+
+    return *( this->data_ + index );
+}
+
 Buffer::~Buffer()
 {
     SAFE_DELETE( this->data_ );

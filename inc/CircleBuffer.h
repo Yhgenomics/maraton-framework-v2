@@ -45,7 +45,7 @@ private:
     size_t used_len_            = 0;
     size_t available_len_       = 0;
 
-    const int buffer_length_    = CIRCLE_BUFFER_SIZE;
+    const int buffer_length_    = MAX_CIRCLE_BUFFER_SIZE;
 
     char* circle_buffer_        = nullptr;
 };

@@ -12,13 +12,14 @@
 #include "Logger.h"
 
 // Cast values defination
-#define CIRCLE_BUFFER_SIZE  1024*1024
-#define MAX_PATH_LEN        1024
-#define MAX_CONNECTION_SIZE 2560
+#define MAX_CIRCLE_BUFFER_SIZE  1024*1024*5
+#define MAX_PATH_LEN            1024
+#define MAX_CONNECTION_SIZE     2560
+#define MAX_UINT                0xFFFFFFFF
 
-#define NS_NAME MRT
 
-#define NS_MARATON_BEGIN namespace MRT {
+#define NS                  MRT
+#define NS_MARATON_BEGIN namespace NS {
 #define NS_MARATON_END }
 
 // Macro function definitions

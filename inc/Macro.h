@@ -75,7 +75,7 @@ public:                                                     \
 #define LOG_DEBUG(msg_,...) Logger::log("%s:%d "##msg_,__FILE__,__LINE__,##__VA_ARGS__)
 #define LOG_DEBUG_UV(status) \
                 if( status != 0 ) \
-                    Logger::log("%s:%d uv error %s",\
+                    Logger::log("%s:%d %s",\
                                 __FILE__,\
                                 __LINE__,\
                                 uv_strerror((int)status))
@@ -85,7 +85,7 @@ public:                                                     \
 #endif
 
 // Message definitions
-#define LOG_UV_ERROR(__x__) if ( __x__ != 0 ) printf( "uv error %s", \
+#define LOG_UV_ERROR(__x__) if ( __x__ != 0 ) printf( "error %s", \
                                                   uv_strerror((int)__x__));
 #define LOG_SYS(msg_,...) NS_NAME::Logger::sys(msg_,__VA_ARGS__)
 #define LOG_EERROR(msg_,...) NS_NAME::Logger::error(msg_,__VA_ARGS__)

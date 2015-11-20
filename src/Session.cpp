@@ -5,12 +5,16 @@ NS_MARATON_BEGIN
 
 Session::Session( )
 {
-    this->uv_tcp_ = new uv_tcp_t( );
 }
 
 Session::~Session( )
 {
 
+}
+
+void Session::close( )
+{
+    this->opt_->close_session( this );
 }
 
 void Session::send( uptr<Buffer> data )
@@ -31,25 +35,34 @@ void Session::send( uptr<Buffer> data )
     memcpy( write_token->buffer->base, data->data(), data->size() );
     
     auto r  = uv_write( write_token->writer, 
-                        (uv_stream_t*) this->uv_tcp_, 
+                        (uv_stream_t*) &this->uv_tcp_, 
                         write_token->buffer, 
                         1,  
                         Session::uv_write_callback );
-    if ( r != 0 )
-    {
-        LOG_DEBUG("uv errors:%s",UV_ERROR(r));
-    }
+    LOG_DEBUG_UV( r );
 }
 
 void Session::uv_write_callback( uv_write_t * req , int status )
 {
+    write_token_t* write_token = scast<write_token_t*>( req->data );
+    
+    if( write_token == nullptr )
+    {
+        LOG_DEBUG( "write_token is nullptr!" );
+        return;
+    }
+
+    uv_buf_t* buffer           = write_token->buffer;
+
     if ( status < 0 )
     {
         LOG_DEBUG_UV( status );
+        SAFE_DELETE( buffer->base );
+        SAFE_DELETE( buffer );
+        SAFE_DELETE( write_token );
+        SAFE_DELETE( req );
         return;
     }
-    write_token_t* write_token = scast<write_token_t*>( req->data );
-    uv_buf_t* buffer           = write_token->buffer;
 
     write_token->session->on_write( make_uptr( Buffer , 
                                     write_token->buffer->base , 
@@ -59,91 +72,6 @@ void Session::uv_write_callback( uv_write_t * req , int status )
     SAFE_DELETE( buffer );
     SAFE_DELETE( write_token );
     SAFE_DELETE( req );
-}
-
-void Session::close()
-{
-   uv_close( (uv_handle_t*)this->uv_tcp_ , Session::uv_close_callback);
-}
-
-void Session::uv_on_accepted( Operator * opt )
-{
-    this->parent_       = opt;
-    this->uv_tcp_->data = this;
-    this->session_mode_ = SessionMode::Server;
-
-    this->on_connect();
-    int result = uv_read_start( (uv_stream_t*) this->uv_tcp_ , Session::uv_alloc_callback , Session::uv_read_callback);
-    LOG_DEBUG_UV( result );
-}
-
-void Session::uv_on_connected( Operator * opt )
-{   
-    this->parent_ = opt;
-    this->session_mode_ = SessionMode::Client;
-
-    SAFE_DELETE( this->uv_tcp_ );
-    this->uv_tcp_ = &opt->uv_tcp_;
-    this->uv_tcp_->data = this;
-    int result = uv_read_start( (uv_stream_t*) this->uv_tcp_ , Session::uv_alloc_callback , Session::uv_read_callback);
-    LOG_DEBUG_UV( result );
-    this->on_connect();
-}             
-              
-void Session::uv_on_close()
-{   
-    this->on_close();
-
-    if ( this->session_mode_ == SessionMode::Server )
-    {
-        SAFE_DELETE( this->uv_tcp_ );
-    } 
-}             
-               
-void Session::uv_alloc_callback( uv_handle_t * handle , size_t suggested_size , uv_buf_t * buf )
-{
-    buf->base = new char[suggested_size];
-    buf->len  = suggested_size;
-}
-
-void Session::uv_read_callback( uv_stream_t * stream , ssize_t nread , const uv_buf_t * buf )
-{
-    Session* session = scast<Session*>( stream->data );
-
-    if ( session == nullptr )
-    {
-        LOG_DEBUG( "uv_read_callback: session is nullptr!!" );
-        return;
-    }
-
-    if ( nread < 0 )
-    {
-        delete buf->base;
-        uv_close( (uv_handle_t*)session->uv_tcp_ , Session::uv_close_callback);
-        return;
-    }
-
-    auto data = make_uptr( Buffer , buf->base , nread );
-
-    session->on_read( move_ptr( data ) );
-
-    delete buf->base;
-}
-
-void Session::uv_close_callback( uv_handle_t * handler )
-{
-    Session* session = scast<Session*>( handler->data );
-
-    if ( session == nullptr )
-    {
-        LOG_DEBUG( "uv_read_callback: session is nullptr!" );
-        return;
-    }
-
-    session->uv_on_close();
-    session->parent_->on_close_session( session );
-
-    SAFE_DELETE( session );
 } 
 
 NS_MARATON_END

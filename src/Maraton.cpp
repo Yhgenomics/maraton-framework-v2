@@ -34,6 +34,14 @@ void Maraton::uv_process_resolved( uv_getaddrinfo_t * req , int status , addrinf
         return;
     } 
 
+    if( status < 0 )
+    {
+        LOG_DEBUG_UV( status );
+        Maraton::instance( )->unregist( opt );
+        delete res;
+        return;
+    }
+
     char ip[17] = { 0 };
 
     uv_ip4_name( ( struct sockaddr_in* ) res->ai_addr , 
@@ -41,16 +49,18 @@ void Maraton::uv_process_resolved( uv_getaddrinfo_t * req , int status , addrinf
                  16 );
     uv_ip4_addr( ip , 
                  opt->port_ , 
-                 &opt->addr_in );
+                 &opt->addr_in_ );
     opt->ip_ = ip;
+
     opt->do_work();
 
+    req->data = nullptr;
     delete res;
 }
 
 void Maraton::unregist( const Operator * opt )
 {
-    elements_[opt->index_] = nullptr; 
+    elements_[opt->index_] = nullptr;
 }
 
 void Maraton::loop( )

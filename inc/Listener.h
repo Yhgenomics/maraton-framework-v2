@@ -26,11 +26,29 @@ public:
 
 protected:
 
-    virtual void        do_work         ( ) override;
+    //virtual Session * create_session    ( ) = 0;
+    //virtual void      on_session_open   ( Session * session ) = 0;
+    //virtual void      on_session_close  ( Session * session ) = 0;
+                                        
+    void              do_work           ( ) override;
+    void              close_session     ( Session * session ) override;
 
-    virtual void        on_new_session  ( Session * session )   = 0;
-    virtual void        on_close_session( Session * session ) = 0;
-    virtual void        on_close        ( ) = 0;
+private:
+
+    uv_tcp_t uv_tcp_ = { 0 }; 
+
+    Session* session_list_[MAX_CONNECTION_SIZE] = { 0 };
+    size_t   session_list_index_                = 0;
+
+    static void uv_new_connection_callback ( uv_stream_t * server ,
+                                             int status );
+    static void uv_alloc_callback          ( uv_handle_t * handle , 
+                                             size_t suggested_size , 
+                                             uv_buf_t * buf );
+    static void uv_read_callback           ( uv_stream_t * stream , 
+                                             ssize_t nread , 
+                                             const uv_buf_t * buf );
+    static void uv_close_callback          ( uv_handle_t * handle );
 };
 
 NS_MARATON_END

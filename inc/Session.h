@@ -23,11 +23,11 @@ public:
     Session( );
     virtual ~Session();
 
-    void         close  ( );
+    void close  ( );
 
 protected:
     
-    Operator* parent_ =  nullptr;
+    Operator* opt_ =  nullptr;
 
     virtual void send       ( uptr<Buffer> data );
     virtual void on_connect ( )                   { };
@@ -51,22 +51,8 @@ private:
         Session *           session;
     };
 
-    uv_tcp_t*   uv_tcp_  = nullptr;
-    SessionMode session_mode_ = SessionMode::Unknown;
+    uv_tcp_t    uv_tcp_         = { 0 };
     
-    void uv_on_accepted           ( Operator* opt );
-    void uv_on_connected          ( Operator* opt );
-    void uv_on_close              ( );
-
-    static void uv_alloc_callback ( uv_handle_t * handle ,
-                                    size_t suggested_size ,
-                                    uv_buf_t * buf  );
-                         
-    static void uv_read_callback  ( uv_stream_t * stream ,
-                                    ssize_t nread ,
-                                    const uv_buf_t * buf);
-    static void uv_close_callback ( uv_handle_t* handler );
-
     static void uv_write_callback ( uv_write_t * req, int status );
 
     friend class Operator;

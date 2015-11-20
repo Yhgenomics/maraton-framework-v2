@@ -78,6 +78,7 @@
     <ReferencePath>..\lib;$(ReferencePath)</ReferencePath>
     <LibraryPath>..\lib;$(LibraryPath)</LibraryPath>
     <SourcePath>..\src;$(SourcePath)</SourcePath>
+    <ExecutablePath>..\lib;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

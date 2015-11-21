@@ -4,6 +4,13 @@ using namespace MRT;
 
 int main( )
 {
+
+    WebClient wc;
+    wc.get( "http://baidu.com" , [ ] ( uptr<HTTPResponse> rep )
+    { 
+    
+    
+    } );
     while ( 1 )
     {
         //Maraton::instance( )->regist( make_uptr( Listener , "localhost" , 1113 ) );

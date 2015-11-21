@@ -17,18 +17,18 @@ size_t ClusterSession::id( )
 
 void ClusterSession::send_message( uptr<Message> message )
 {
-    //uptr<Buffer> header  = make_uptr( Buffer , "YH" ); 
-    //uptr<Buffer> length  = make_uptr( Buffer , 4 );
-    //uptr<Buffer> body =  message->bytes( );
+    uptr<Buffer> header  = make_uptr( Buffer , "YH" ); 
+    uptr<Buffer> length  = make_uptr( Buffer , 4 );
+    uptr<Buffer> body =  message->bytes( );
 
-    //short* pshort = (short*)( length->data( ) );
-    //*pshort = scast<short>( body->size( ) );
-    //++pshort;
-    //*pshort = scast<short>( body->size( ) );
+    short* pshort = (short*)( length->data( ) );
+    *pshort = scast<short>( body->size( ) );
+    ++pshort;
+    *pshort = scast<short>( body->size( ) );
 
-    //this->send( move_ptr( header ) );
-    //this->send( move_ptr( length ) );
-    //this->send( move_ptr( body ) );
+    this->send( move_ptr( header ) );
+    this->send( move_ptr( length ) );
+    this->send( move_ptr( body ) );
 }
 
 void ClusterSession::on_connect( )

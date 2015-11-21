@@ -40,6 +40,7 @@ void Session::send( uptr<Buffer> data )
                         1,  
                         Session::uv_write_callback );
     LOG_DEBUG_UV( r );
+    LOG_DEBUG( "Send %lld bytes" , data->size( ) );
 }
 
 void Session::uv_write_callback( uv_write_t * req , int status )

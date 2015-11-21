@@ -29,7 +29,7 @@ protected:
     
     Operator* opt_ =  nullptr;
 
-    virtual void send       ( uptr<Buffer> data );
+            void send       ( uptr<Buffer> data );
     virtual void on_connect ( )                   { };
     virtual void on_read    ( uptr<Buffer> data ) { };
     virtual void on_write   ( uptr<Buffer> data ) { };

@@ -6,6 +6,7 @@
 * * * * * * * * * * * * * * * */
 
 #include "Macro.h"
+#include "UUID.h"
 #include "Logger.h"
 #include "Buffer.h"
 #include "CircleBuffer.h"
@@ -14,8 +15,10 @@
 #include "Timer.h"
 #include "Configuration.h"
 #include "json.hpp"
+#include "Singleton.h"
 #include "Message.h"
 #include "HTTP.h"
+#include "SysProcess.h"
 #include "WebClient.h"
 
 #include "Maraton.h"

@@ -162,6 +162,7 @@
     <ClCompile Include="..\src\Operator.cpp" />
     <ClCompile Include="..\src\Session.cpp" />
     <ClCompile Include="..\src\SyncWorker.cpp" />
+    <ClCompile Include="..\src\SysProcess.cpp" />
     <ClCompile Include="..\src\Timer.cpp" />
     <ClCompile Include="..\src\WebClient.cpp" />
     <ClCompile Include="main.cpp" />
@@ -183,8 +184,11 @@
     <ClInclude Include="..\inc\MRT.h" />
     <ClInclude Include="..\inc\Operator.h" />
     <ClInclude Include="..\inc\Session.h" />
+    <ClInclude Include="..\inc\Singleton.h" />
     <ClInclude Include="..\inc\SyncWorker.h" />
+    <ClInclude Include="..\inc\SysProcess.h" />
     <ClInclude Include="..\inc\Timer.h" />
+    <ClInclude Include="..\inc\UUID.h" />
     <ClInclude Include="..\inc\WebClient.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

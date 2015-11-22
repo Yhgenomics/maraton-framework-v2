@@ -55,6 +55,9 @@
     <ClCompile Include="..\src\WebClient.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\SysProcess.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\inc\Connector.h">
@@ -112,6 +115,15 @@
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\inc\WebClient.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\UUID.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Singleton.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\SysProcess.h">
       <Filter>inc</Filter>
     </ClInclude>
   </ItemGroup>

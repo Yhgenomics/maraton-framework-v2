@@ -1,21 +1,25 @@
 #include "MRT.h"
-
+#include <thread>
 using namespace MRT;
+ 
 
 int main( )
-{
+{  
 
-    WebClient wc;
-    wc.get( "http://baidu.com" , [ ] ( uptr<HTTPResponse> rep )
-    { 
-    
-    
-    } );
     while ( 1 )
     {
-        //Maraton::instance( )->regist( make_uptr( Listener , "localhost" , 1113 ) );
-        //Maraton::instance( )->regist( make_uptr( Connector , "localhost" , 1113 ) );
+        for ( size_t i = 0; i < 1; i++ )
+        {
+            WebClient client;
+            client.get( "http://www.verycd.com/" , [ ] ( uptr<HTTPResponse> rep )
+            {
+                if ( rep == nullptr ) return;
+                LOG_DEBUG( "HTTP Response[%lld] %lld bytes" , rep->status( ) , rep->content_length( ) );
+                LOG_DEBUG( "%s" , rep->content( )->data( ) );
+            } );
+        }
         Maraton::instance( )->loop( );
+        std::this_thread::sleep_for( std::chrono::milliseconds( 200 ) );
     }
     return 0;
 }

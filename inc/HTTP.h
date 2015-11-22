@@ -23,7 +23,6 @@ NS_MARATON_BEGIN
 class HTTPRequest;
 class HTTPResponse;
 
-typedef std::function<void( uptr<HTTPResponse>)>  callback_response_t;
 typedef std::function<uptr<Buffer>( HTTPRequest* req )> write_callback_t;
 typedef std::function<uptr<Buffer>( HTTPResponse* req )> read_callback_t;
 
@@ -56,8 +55,9 @@ class HTTPRequest
 {
 public:
      
-    HTTPRequest( std::string url ,
-                 std::string method );
+    HTTPRequest ( std::string url ,
+                  std::string method );
+    ~HTTPRequest( );
 
     void write_callback         ( write_callback_t callback );
 
@@ -106,6 +106,8 @@ private:
     std::string tmp_key_     = "";
     std::string tmp_value_   = "";
     std::string protocol_    = "";
+
+    friend class WebClient;
 };
 
 // ===========================================
@@ -115,8 +117,9 @@ class HTTPResponse
 {
 public:
      
-    HTTPResponse                 ( size_t status );
+    //HTTPResponse                 ( size_t status );
     HTTPResponse                 ( );
+    ~HTTPResponse                ( );
 
     void         read_callback   ( read_callback_t callback );
                                  
@@ -176,6 +179,8 @@ class WebRequestSession :
 public:
 
     WebRequestSession           ( uptr<HTTPRequest> req );
+    ~WebRequestSession          ( );
+
     uptr<HTTPResponse> response ( );
 
 protected:
@@ -191,41 +196,41 @@ private:
     uptr<HTTPResponse>      rep_;
 };
 
-// ===========================================
-// WebRequestConnector
-// ===========================================
-class WebRequestConnector :
-    public Connector
-{
-public:
-
-    WebRequestConnector( uptr<HTTPRequest> req , 
-                         callback_response_t callback);
-
-protected:
-
-    virtual Session * create_session( ) override;
-
-    virtual void on_session_open    ( Session * session ) override;
-
-    virtual void on_session_close   ( Session * session ) override;
-
-private:
-
-    uptr<HTTPRequest> req_;
-    callback_response_t callback_response_;
-};
-
-// ===========================================
-// WebClient
-// ===========================================
-class WebClient
-{
-public:
-
-    void get( std::string url , 
-              callback_response_t callback);
-};
+//// ===========================================
+//// WebRequestConnector
+//// ===========================================
+//class WebRequestConnector :
+//    public Connector
+//{
+//public:
+//
+//    WebRequestConnector ( uptr<HTTPRequest> req , 
+//                          callback_response_t callback);
+//    ~WebRequestConnector( );
+//protected:
+//
+//    virtual Session * create_session( ) override;
+//
+//    virtual void on_session_open    ( Session * session ) override;
+//
+//    virtual void on_session_close   ( Session * session ) override;
+//
+//private:
+//
+//    uptr<HTTPRequest> req_;
+//    callback_response_t callback_response_;
+//};
+//
+//// ===========================================
+//// WebClient
+//// ===========================================
+//class WebClient
+//{
+//public:
+//
+//    void get( std::string url , 
+//              callback_response_t callback);
+//};
 
 NS_MARATON_END
 

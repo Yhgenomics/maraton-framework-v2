@@ -12,6 +12,7 @@ Connector::Connector( std::string addr , int port )
 Connector::~Connector( )
 {
     SAFE_DELETE( this->session_ );
+
 }
 
 void Connector::do_work( )

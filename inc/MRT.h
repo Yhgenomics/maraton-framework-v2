@@ -16,6 +16,7 @@
 #include "json.hpp"
 #include "Message.h"
 #include "HTTP.h"
+#include "WebClient.h"
 
 #include "Maraton.h"
 #include "Listener.h"

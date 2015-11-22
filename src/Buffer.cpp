@@ -129,6 +129,8 @@ void Buffer::push( const char * data , size_t len )
     {
         memcpy( this->pdata_ , data , delta );
     }
+
+    this->pdata_+=delta;
 }
 
 void Buffer::clearup()

@@ -5,6 +5,7 @@ NS_MARATON_BEGIN
 Url::Url( std::string url )
 {
     this->url_ = url;
+    this->parse( this->url_ );
 } 
 
 Url::~Url( )
@@ -14,17 +15,17 @@ Url::~Url( )
 
 std::string Url::domain( )
 {
-    return std::string( );
+    return this->domain_;
 }
 
 std::string Url::path( )
 {
-    return std::string( );
+    return this->path_;
 }
 
 std::string Url::protocol( )
 {
-    return std::string( );
+    return this->protocol_;
 }
 
 void Url::parse( std::string url )
@@ -83,11 +84,12 @@ HTTPRequest::HTTPRequest( std::string url , std::string method )
 
     this->domain_ = url_parse.domain( );
     this->url_    = url_parse.path( );
-    this->method_ = method;
-
-    this->header( "Server" , "YHGenomics/Maraton" );
-    this->header( "VHTTP" , "Alpha/0.0.1" );
+    this->method_ = method; 
 }
+
+HTTPRequest::~HTTPRequest( )
+{
+} 
 
 void HTTPRequest::write_callback( write_callback_t callback )
 {
@@ -187,7 +189,8 @@ void HTTPRequest::parse( uptr<Buffer> data )
 
                         if ( this->tmp_key_ == "Content-Length" )
                         { 
-                            this->content_length_ = atoll( this->tmp_value_.c_str( ) );;
+                            this->content_length_ = 
+                                atoll( this->tmp_value_.c_str( ) );
                         }
 
                         this->tmp_key_     = "";
@@ -243,7 +246,9 @@ uptr<Buffer> HTTPRequest::build_body( )
 
     if ( this->content_ != nullptr )
     {
-        return make_uptr( Buffer , this->content_->data( ) , this->content_->size( ) );
+        return make_uptr( Buffer , 
+                          this->content_->data( ) ,
+                          this->content_->size( ) );
     }
 
     return nullptr;
@@ -259,12 +264,16 @@ void HTTPRequest::data( void * value )
     this->data_ = value;
 }
 
-HTTPResponse::HTTPResponse( size_t status )
-{
-    this->status( status );
-}
+//HTTPResponse::HTTPResponse( size_t status )
+//{
+//    this->status( status );
+//}
 
 HTTPResponse::HTTPResponse( )
+{
+}
+
+HTTPResponse::~HTTPResponse( )
 {
 }
 
@@ -300,7 +309,9 @@ void HTTPResponse::content( uptr<Buffer> content )
 
 uptr<Buffer> HTTPResponse::content( )
 {
-    uptr<Buffer> result = make_uptr( Buffer , this->content_->data( ) , this->content_->size( ) );
+    uptr<Buffer> result = make_uptr( Buffer , 
+                                     this->content_->data( ) , 
+                                     this->content_->size( ) );
     return result;
 }
 
@@ -343,7 +354,7 @@ void HTTPResponse::status( size_t code )
 
 size_t HTTPResponse::status( )
 {
-    return size_t( );
+    return this->status_;
 }
 
 uptr<Buffer> HTTPResponse::build_header( )
@@ -376,7 +387,9 @@ uptr<Buffer> HTTPResponse::build_body( )
 
     if ( this->content_ != nullptr )
     {
-        return make_uptr( Buffer , this->content_->data( ) , this->content_->size( ) );
+        return make_uptr( Buffer , 
+                          this->content_->data( ) , 
+                          this->content_->size( ) );
     }
 
     return nullptr;
@@ -478,7 +491,9 @@ void HTTPResponse::parse( uptr<Buffer> data )
                     {
                         return;
                     }
-                    this->content_->push( pdata , data->size( ) - ( pdata - ori_data ) );
+
+                    this->content_->push( pdata , 
+                                          data->size( ) - ( pdata - ori_data ) );
                     return;
                 }
                 break;
@@ -490,82 +505,90 @@ void HTTPResponse::parse( uptr<Buffer> data )
     }
     while ( ( pdata - ori_data ) < data->size( ) );
 } 
-
-WebRequestSession::WebRequestSession( uptr<HTTPRequest> req )
-{
-    this->req_ = move_ptr( req );
-    this->rep_ = make_uptr( HTTPResponse );
-}
-
-uptr<HTTPResponse> WebRequestSession::response( )
-{
-    return move_ptr( rep_ );
-}
-
-void WebRequestSession::on_connect( )
-{
-    auto header = this->req_->build_header( );
-    auto body = this->req_->build_header( );
-
-    this->send( move_ptr( header ) );
-    this->send( move_ptr( body ) );
-}
-
-void WebRequestSession::on_read( uptr<Buffer> data )
-{
-    this->req_->parse( move_ptr( data ) );
-}
-
-void WebRequestSession::on_write( uptr<Buffer> data )
-{
-
-}
-
-void WebRequestSession::on_close( )
-{
-
-}
-
-WebRequestConnector::WebRequestConnector( uptr<HTTPRequest> req_ ,
-                                          callback_response_t callback)
-    : Connector( req_->domain() , 80 )
-{
-    this->req_                  = move_ptr( req_ );
-    this->callback_response_    = callback;
-}
-
-Session * WebRequestConnector::create_session( )
-{
-    return new WebRequestSession( move_ptr( req_ ) );
-}
-
-void WebRequestConnector::on_session_open( Session * session )
-{
-
-}
-
-void WebRequestConnector::on_session_close( Session * session )
-{
-    WebRequestSession* websession = scast<WebRequestSession*>( session );
-    this->callback_response_( move_ptr( websession->response( ) ) );
-}
- 
-void WebClient::get( std::string url , 
-                     callback_response_t callback )
-{
-    uptr<HTTPRequest> req          = make_uptr( HTTPRequest , 
-                                                url , 
-                                                "GET" );
-
-    uptr<WebRequestConnector> conn = make_uptr( WebRequestConnector ,
-                                                move_ptr( req ) ,
-                                                callback );
-
-    Maraton::instance( )->regist( move_ptr( conn ) );
-}
-
-
-
+//
+//WebRequestSession::WebRequestSession( uptr<HTTPRequest> req )
+//{
+//    this->req_ = move_ptr( req );
+//    this->rep_ = make_uptr( HTTPResponse );
+//}
+//
+//WebRequestSession::~WebRequestSession( ) 
+//{
+//
+//}
+//
+//uptr<HTTPResponse> WebRequestSession::response( )
+//{
+//    return move_ptr( this->rep_ );
+//}
+//
+//void WebRequestSession::on_connect( )
+//{
+//    auto header = this->req_->build_header( );
+//    auto body   = this->req_->build_body( );
+//
+//    this->send( move_ptr( header ) );
+//    this->send( move_ptr( body ) );
+//}
+//
+//void WebRequestSession::on_read( uptr<Buffer> data )
+//{
+//    this->rep_->parse( move_ptr( data ) );
+//}
+//
+//void WebRequestSession::on_write( uptr<Buffer> data )
+//{
+//
+//}
+//
+//void WebRequestSession::on_close( )
+//{
+//
+//}
+//
+//WebRequestConnector::WebRequestConnector( uptr<HTTPRequest> req_ ,
+//                                          callback_response_t callback)
+//    : Connector( req_->domain() , 80 )
+//{
+//    this->req_                  = move_ptr( req_ );
+//    this->callback_response_    = callback;
+//}
+//
+//WebRequestConnector::~WebRequestConnector( )
+//{
+//
+//}
+//
+//Session * WebRequestConnector::create_session( )
+//{
+//    return new WebRequestSession( move_ptr( req_ ) );
+//}
+//
+//void WebRequestConnector::on_session_open( Session * session )
+//{
+//
+//}
+//
+//void WebRequestConnector::on_session_close( Session * session )
+//{
+//    WebRequestSession* websession = scast<WebRequestSession*>( session );
+//    this->callback_response_( move_ptr( websession->response( ) ) );
+//}
+//
+//void WebClient::get( std::string url , 
+//                     callback_response_t callback )
+//{
+//    uptr<HTTPRequest> req          = make_uptr( HTTPRequest , 
+//                                                url , 
+//                                                "GET" );
+//    req->header( "Connection" , "close" );
+//
+//    uptr<WebRequestConnector> conn = make_uptr( WebRequestConnector ,
+//                                                move_ptr( req ) ,
+//                                                callback );
+//
+//    Maraton::instance( )->regist( move_ptr( conn ) );
+//} 
 
 NS_MARATON_END
 

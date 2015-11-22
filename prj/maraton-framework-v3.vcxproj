@@ -39,7 +39,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -152,13 +152,11 @@
     <ClCompile Include="..\src\AsyncWorker.cpp" />
     <ClCompile Include="..\src\Buffer.cpp" />
     <ClCompile Include="..\src\CircleBuffer.cpp" />
-    <ClCompile Include="..\src\ClusterSession.cpp" />
     <ClCompile Include="..\src\Configuration.cpp" />
     <ClCompile Include="..\src\Connector.cpp" />
     <ClCompile Include="..\src\HTTP.cpp" />
     <ClCompile Include="..\src\Listener.cpp" />
     <ClCompile Include="..\src\Maraton.cpp" />
-    <ClCompile Include="..\src\Message.cpp" />
     <ClCompile Include="..\src\Operator.cpp" />
     <ClCompile Include="..\src\Session.cpp" />
     <ClCompile Include="..\src\SyncWorker.cpp" />
@@ -171,7 +169,6 @@
     <ClInclude Include="..\inc\AsyncWorker.h" />
     <ClInclude Include="..\inc\Buffer.h" />
     <ClInclude Include="..\inc\CircleBuffer.h" />
-    <ClInclude Include="..\inc\ClusterSession.h" />
     <ClInclude Include="..\inc\Configuration.h" />
     <ClInclude Include="..\inc\Connector.h" />
     <ClInclude Include="..\inc\HTTP.h" />
@@ -179,8 +176,8 @@
     <ClInclude Include="..\inc\Listener.h" />
     <ClInclude Include="..\inc\Logger.h" />
     <ClInclude Include="..\inc\Macro.h" />
+    <ClInclude Include="..\inc\Manager.h" />
     <ClInclude Include="..\inc\Maraton.h" />
-    <ClInclude Include="..\inc\Message.h" />
     <ClInclude Include="..\inc\MRT.h" />
     <ClInclude Include="..\inc\Operator.h" />
     <ClInclude Include="..\inc\Session.h" />

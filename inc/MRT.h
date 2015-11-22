@@ -16,9 +16,9 @@
 #include "Configuration.h"
 #include "json.hpp"
 #include "Singleton.h"
-#include "Message.h"
 #include "HTTP.h"
 #include "SysProcess.h"
+#include "Manager.h"
 #include "WebClient.h"
 
 #include "Maraton.h"
@@ -26,4 +26,3 @@
 #include "Connector.h"
 
 #include "Session.h"
-#include "ClusterSession.h"

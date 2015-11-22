@@ -57,13 +57,15 @@ public:
      
     HTTPRequest ( std::string url ,
                   std::string method );
+    HTTPRequest ( );
     ~HTTPRequest( );
 
     void write_callback         ( write_callback_t callback );
 
     void content                ( uptr<Buffer> content );
+    uptr<Buffer> content        ( );
     void content_length         ( size_t size );
-
+    size_t content_length       ( );
     
     void header                 ( std::string key ,
                                   std::string value );

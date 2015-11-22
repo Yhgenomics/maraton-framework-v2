@@ -87,6 +87,10 @@ HTTPRequest::HTTPRequest( std::string url , std::string method )
     this->method_ = method; 
 }
 
+HTTPRequest::HTTPRequest( )
+{
+}
+
 HTTPRequest::~HTTPRequest( )
 {
 } 
@@ -102,12 +106,24 @@ void HTTPRequest::content( uptr<Buffer> content )
     this->content_length( content->size( ) );
 }
 
+uptr<Buffer> HTTPRequest::content( )
+{
+    return make_uptr( Buffer , 
+                      this->content_->data( ) ,
+                      this->content_->size( ) );
+}
+
 void HTTPRequest::content_length( size_t size )
 {
     this->content_length_ = size;
     char buf[32]          = { 0 };
     ltoa( (long)size , buf , 10 );
     this->header( "Content-Length" , std::string( buf ) );
+}
+
+size_t HTTPRequest::content_length( )
+{
+    return this->content_length_;
 }
 
 void HTTPRequest::header( std::string key , std::string value )
@@ -187,10 +203,11 @@ void HTTPRequest::parse( uptr<Buffer> data )
                         ++pdata;
                         this->header( this->tmp_key_ , this->tmp_value_ );
 
-                        if ( this->tmp_key_ == "Content-Length" )
+                        if ( this->tmp_key_ == "Content-Length"  )
                         { 
                             this->content_length_ = 
                                 atoll( this->tmp_value_.c_str( ) );
+                            this->content_ = make_uptr( Buffer , this->content_length_ );
                         }
 
                         this->tmp_key_     = "";
@@ -208,6 +225,10 @@ void HTTPRequest::parse( uptr<Buffer> data )
                     {
                         return;
                     }
+
+                    this->content_->push( pdata , 
+                                          data->size( ) - ( pdata - ori_data ) );
+                    return;
                 }
                 break;
             default:
@@ -304,6 +325,9 @@ std::string HTTPResponse::header( std::string key )
 
 void HTTPResponse::content( uptr<Buffer> content )
 {
+    if ( content == nullptr ) return;
+
+    this->content_length( content->size( ) );
     this->content_ = move_ptr( content );
 }
 

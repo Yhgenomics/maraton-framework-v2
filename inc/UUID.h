@@ -32,15 +32,28 @@ public:
             switch ( n )
             {
             case 6:
+#ifdef _WIN32
+                sprintf_s( p, UUID_LEN , "4%x", seed % 15 );
+#else
                 sprintf( p, "4%x", seed % 15 );
+#endif
                 break;
 
             case 8:
+
+#ifdef _WIN32
+                sprintf_s( p, UUID_LEN ,"%c%x", c[rand() % strlen( c )], seed % 15 );
+#else
                 sprintf( p, "%c%x", c[rand() % strlen( c )], seed % 15 );
+#endif
                 break;
 
             default:
+#ifdef _WIN32
+                sprintf_s( p, UUID_LEN , "%02x", seed );
+#else
                 sprintf( p, "%02x", seed );
+#endif
                 break;
             }
 

@@ -9,18 +9,29 @@ Buffer::Buffer( )
     this->size_  = 0;
 }
 
-Buffer::Buffer(size_t size)
+Buffer::Buffer( size_t size )
 {
     SAFE_DELETE( this->data_ );
+    this->size_ = size;
 
-    this->data_  = new char[size] { 0 };
+    if ( this->size_ <= 0 )
+    {
+        this->data_ = this->pdata_ = nullptr;
+        this->size_ = 0;
+        return;
+    }
+
+    this->data_  = new char[size]
+    {
+        0
+    };
     this->pdata_ = this->data_;
     this->size_  = size;
 }
 
 Buffer::Buffer( std::string string )
 {
-   this->data( string.c_str() , string.size() );
+    this->data( string.c_str( ) , string.size( ) );
 }
 
 Buffer::Buffer( const char * data , size_t size )
@@ -49,10 +60,13 @@ Buffer & Buffer::operator=( Buffer && buffer )
 Buffer & Buffer::operator+=( const Buffer & buffer )
 {
     size_t total_len   = buffer.size_ + this->size_;
-    char* tmp          = new char[total_len] { 0 };
+    char* tmp          = new char[total_len]
+    {
+        0
+    };
     memcpy( tmp , this->data_ , this->size_ );
     SAFE_DELETE( this->data_ );
-    memcpy( tmp + this->size_ , buffer.data_, buffer.size_ );
+    memcpy( tmp + this->size_ , buffer.data_ , buffer.size_ );
     this->data_ = tmp;
     this->size_ = total_len;
     return *this;
@@ -73,7 +87,7 @@ char Buffer::operator[]( const size_t index )
     return *( this->data_ + index );
 }
 
-Buffer::~Buffer()
+Buffer::~Buffer( )
 {
     SAFE_DELETE( this->data_ );
 }
@@ -93,7 +107,7 @@ Buffer::Buffer( Buffer && buffer )
     buffer.size_ = 0;
 }
 
-char * Buffer::data()
+char * Buffer::data( )
 {
     return this->data_;
 }
@@ -101,15 +115,26 @@ char * Buffer::data()
 void Buffer::data( const char * value , size_t size )
 {
     SAFE_DELETE( this->data_ );
-
     this->size_ = size;
-  
-    if( value == nullptr )
+
+    if ( this->size_ <= 0 )
     {
+        this->data_ = this->pdata_ = nullptr;
+        this->size_ = 0;
         return;
     }
 
-    this->data_     = new char[size] { 0 };
+    if ( value == nullptr )
+    {
+        this->data_ = this->pdata_ = nullptr;
+        return;
+    }
+
+
+    this->data_     = new char[size]
+    {
+        0
+    };
     this->pdata_    = this->data_;
     memcpy( this->data_ , value , size );
 }
@@ -119,7 +144,7 @@ void Buffer::push( const char * data , size_t len )
     if ( this->data_ == nullptr )
         return;
 
-    size_t delta = this->size_ - ( size_t )( this->pdata_ - this->data_ );
+    size_t delta = this->size_ - ( size_t ) ( this->pdata_ - this->data_ );
 
     if ( delta > len )
     {
@@ -133,7 +158,7 @@ void Buffer::push( const char * data , size_t len )
     this->pdata_+=delta;
 }
 
-void Buffer::clearup()
+void Buffer::clearup( )
 {
     SAFE_DELETE( this->data_ );
     this->size_ = 0;

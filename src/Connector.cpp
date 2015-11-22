@@ -86,6 +86,8 @@ void Connector::uv_read_callback( uv_stream_t * stream , ssize_t nread , const u
     uptr<Buffer> pbuf = make_uptr( Buffer , buf->base , nread );
     session->on_read( move_ptr( pbuf ) );
 
+    LOG_DEBUG( "Receive %lld bytes" , nread );
+
     delete buf->base;
 }
 void Connector::uv_close_callback( uv_handle_t * handle )

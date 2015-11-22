@@ -122,6 +122,8 @@ void Listener::uv_read_callback( uv_stream_t * stream ,
     uptr<Buffer> pbuf = make_uptr( Buffer , buf->base , nread );
     session->on_read( move_ptr( pbuf ) );
 
+    LOG_DEBUG( "Receive %lld bytes" , nread );
+
     delete buf->base;
 }
 
@@ -157,8 +159,7 @@ void Listener::uv_close_callback( uv_handle_t * handle )
             }
             break;
         }
-    }
-    //listener->close_session( session );
+    } 
 }
 
 void Listener::close_session( Session * session )

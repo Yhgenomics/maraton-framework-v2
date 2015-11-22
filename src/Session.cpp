@@ -39,8 +39,7 @@ void Session::send( uptr<Buffer> data )
                         write_token->buffer, 
                         1,  
                         Session::uv_write_callback );
-    LOG_DEBUG_UV( r );
-    LOG_DEBUG( "Send %lld bytes" , data->size( ) );
+    LOG_DEBUG_UV( r ); 
 }
 
 void Session::uv_write_callback( uv_write_t * req , int status )
@@ -68,6 +67,8 @@ void Session::uv_write_callback( uv_write_t * req , int status )
     write_token->session->on_write( make_uptr( Buffer , 
                                     write_token->buffer->base , 
                                     write_token->buffer->len ) );
+
+    LOG_DEBUG( "Send %lld bytes" , write_token->buffer->len );
 
     SAFE_DELETE( buffer->base );
     SAFE_DELETE( buffer );

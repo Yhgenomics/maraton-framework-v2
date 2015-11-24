@@ -24,7 +24,8 @@ class HTTPRequest;
 class HTTPResponse;
 
 typedef std::function<uptr<Buffer>( HTTPRequest* req )> write_callback_t;
-typedef std::function<uptr<Buffer>( HTTPResponse* req )> read_callback_t;
+typedef std::function<uptr<Buffer>( HTTPResponse* rep )> read_callback_t;
+typedef std::function<void( HTTPResponse* rep , uptr<Buffer> buffer )> rep_read_callback_t;
 
 class Url
 {
@@ -123,7 +124,7 @@ public:
     HTTPResponse                 ( );
     ~HTTPResponse                ( );
 
-    void         read_callback   ( read_callback_t callback );
+    void         read_callback   ( rep_read_callback_t callback );
                                  
     void*        data            ( );
     void         data            ( void* value );
@@ -147,13 +148,13 @@ public:
 
 private: 
 
-    size_t          status_         = 0;
-    std::string     status_str_     = "";
-    size_t          content_length_ = 0;
-    std::string     protocol_       = "";
-    read_callback_t read_callback_  = nullptr;
-    void*           data_           = nullptr;
-    uptr<Buffer>    content_        = nullptr;
+    size_t              status_         = 0;
+    std::string         status_str_     = "";
+    size_t              content_length_ = 0;
+    std::string         protocol_       = "";
+    rep_read_callback_t read_callback_  = nullptr;
+    void*               data_           = nullptr;
+    uptr<Buffer>        content_        = nullptr;
     std::map<
        std::string , 
        std::string> header_;

@@ -101,9 +101,16 @@ void HTTPRequest::write_callback( write_callback_t callback )
 }
 
 void HTTPRequest::content( uptr<Buffer> content )
-{
-    this->content_ = move_ptr( content );
-    this->content_length( content->size( ) );
+{ 
+    if ( content == nullptr )
+    {
+        this->content_length( 0 );
+    }
+    else
+    {
+        this->content_length( content->size( ) );
+        this->content_ = move_ptr( content );
+    }
 }
 
 uptr<Buffer> HTTPRequest::content( )
@@ -245,7 +252,7 @@ uptr<Buffer> HTTPRequest::build_header( )
     std::string head = "";
     std::string new_line = "\r\n";
 
-    head += this->method_ + " " + this->url_ + " HTTP/1.1" + new_line;
+    head += this->method_ + " /" + this->url_ + " HTTP/1.1" + new_line;
 
     for ( auto kv : this->header_ )
     {
@@ -298,7 +305,7 @@ HTTPResponse::~HTTPResponse( )
 {
 }
 
-void HTTPResponse::read_callback( read_callback_t callback )
+void HTTPResponse::read_callback( rep_read_callback_t callback )
 {
     this->read_callback_ = callback;
 }
@@ -404,11 +411,6 @@ uptr<Buffer> HTTPResponse::build_header( )
 
 uptr<Buffer> HTTPResponse::build_body( )
 {
-    if ( this->read_callback_ != nullptr )
-    {
-        return this->read_callback_( this );
-    }
-
     if ( this->content_ != nullptr )
     {
         return make_uptr( Buffer , 
@@ -511,13 +513,24 @@ void HTTPResponse::parse( uptr<Buffer> data )
                 break;
             case ParseState::kContent:
                 {
-                    if ( this->content_length_ > MAX_CIRCLE_BUFFER_SIZE )
+                    if ( this->read_callback_ != nullptr )
                     {
-                        return;
+                        size_t delta_size = data->size( ) - ( pdata - ori_data ) ;
+                        this->read_callback_( this , 
+                                              make_uptr( Buffer , 
+                                                         pdata ,
+                                                         delta_size)
+                                              );
                     }
-
-                    this->content_->push( pdata , 
-                                          data->size( ) - ( pdata - ori_data ) );
+                    else
+                    {
+                        if ( this->content_length_ > MAX_CIRCLE_BUFFER_SIZE )
+                        {
+                            return;
+                        }
+                        this->content_->push( pdata ,
+                                              data->size( ) - ( pdata - ori_data ) );
+                    }
                     return;
                 }
                 break;
@@ -528,7 +541,7 @@ void HTTPResponse::parse( uptr<Buffer> data )
         ++pdata;
     }
     while ( ( pdata - ori_data ) < data->size( ) );
-} 
+}
 //
 //WebRequestSession::WebRequestSession( uptr<HTTPRequest> req )
 //{

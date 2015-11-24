@@ -4,9 +4,10 @@ NS_MARATON_BEGIN
 
 WebClient::WebClient( )
 {
-    this->header( "Connection" , "Close" );
+    this->header( "Connection" , "close" );
     this->header( "Author" , "YHGenomics/Maraton" );
     this->header( "VHTTP" , "Alpha/0.0.1" );
+    this->header( "Accept" , "*/*" );
 }
 
 void WebClient::get( std::string url ,
@@ -20,7 +21,6 @@ void WebClient::get( std::string url ,
     token->callback                     = callback;
 
     this->fill_header( token->req.get( ) );
-
     
     this->query_dns( move_ptr( token ) );
 }
@@ -36,17 +36,15 @@ void WebClient::post( std::string url ,
     token->req                          = move_ptr( req );
     token->callback                     = callback;
     
-    this->fill_header( token->req.get( ) );
-    req->content( make_uptr( Buffer , data ) );
-
-    
-    this->query_dns( move_ptr( token ) );
+    this->fill_header   ( token->req.get( ) );
+    token->req->content ( make_uptr( Buffer , data ) );
+    this->query_dns     ( move_ptr( token ) );
 }
 
-void WebClient::file( std::string url , 
-                      std::string file_token ,
-                      FILE * pfile ,
-                      callback_response_t callback )
+void WebClient::post_file( std::string url , 
+                           std::string file_token ,
+                           FILE * pfile ,
+                           callback_response_t callback )
 {
     uptr<HTTPRequest> req               = make_uptr( HTTPRequest ,
                                                      url ,
@@ -79,6 +77,29 @@ void WebClient::file( std::string url ,
     this->query_dns( move_ptr( token ) );
 }
 
+void WebClient::dl_file( std::string url ,
+                         FILE* pfile ,
+                         callback_response_t callback)
+{ 
+    uptr<HTTPRequest> req               = make_uptr( HTTPRequest , 
+                                                     url , 
+                                                     "GET");
+    uptr<WebClientRequestToken> token   = make_uptr( WebClientRequestToken );
+    token->req                          = move_ptr( req );
+    token->rep                          = make_uptr( HTTPResponse ); 
+    token->callback                     = callback;
+
+    token->rep->read_callback( [pfile] ( HTTPResponse* rep ,
+                               uptr<Buffer>  buf )
+    {
+        fwrite( buf->data( ) , 1 ,  buf->size( ) , pfile );
+    });
+
+    this->fill_header( token->req.get( ) );
+
+    this->query_dns( move_ptr( token ) );
+}
+
 void WebClient::header( std::string key , std::string value )
 {
     this->header_[key] = value;
@@ -87,7 +108,10 @@ void WebClient::header( std::string key , std::string value )
 void WebClient::query_dns( uptr<WebClientRequestToken> t )
 {
     auto token = t.release( );
-    token->rep                      = make_uptr( HTTPResponse );
+
+    if ( token->rep == nullptr )
+        token->rep                  = make_uptr( HTTPResponse );
+
     token->uv_tcp.data              = token;
     token->uv_connect.data          = token;
     token->addrinfo.ai_family       = PF_INET;
@@ -195,7 +219,7 @@ void WebClient::uv_process_resolved( uv_getaddrinfo_t * req ,
 
     token->ip = ip;
 
-    token->req->header( "Host" , ip );
+    token->req->header( "Host" , token->req->domain_ );
 
     uv_tcp_init( uv_default_loop( ) , &token->uv_tcp );
 

@@ -48,7 +48,6 @@ void Listener::uv_new_connection_callback( uv_stream_t * server , int status )
 
     auto session = listener->create_session( );
 
-    listener->on_session_open( session );
     uv_tcp_init             ( listener->uv_loop_ , 
                               &session->uv_tcp_ );
 

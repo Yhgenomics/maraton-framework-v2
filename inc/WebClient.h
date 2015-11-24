@@ -24,17 +24,21 @@ public:
 
     WebClient ( );
 
-    void get  ( std::string url , 
-                callback_response_t callback );
+    void get        ( std::string url , 
+                      callback_response_t callback );
 
-    void post ( std::string url , 
-                std::string data , 
-                callback_response_t callback );
+    void post       ( std::string url , 
+                      std::string data , 
+                      callback_response_t callback );
 
-    void file ( std::string url , 
-                std::string file_token , 
-                FILE* pfile , 
-                callback_response_t callback );
+    void post_file  ( std::string url , 
+                      std::string file_token , 
+                      FILE* pfile , 
+                      callback_response_t callback );
+
+    void dl_file    ( std::string url ,
+                      FILE* pfile ,
+                      callback_response_t callback);
 
     void header( std::string key, std::string value );
 

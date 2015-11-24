@@ -78,8 +78,6 @@ void Listener::uv_new_connection_callback( uv_stream_t * server , int status )
                            Listener::uv_read_callback );
         LOG_DEBUG_UV( r );
 
-        LOG_DEBUG( "new connection accepted" );
-
         listener->on_session_open( session );
         session->on_connect( );
     }
@@ -120,8 +118,6 @@ void Listener::uv_read_callback( uv_stream_t * stream ,
 
     uptr<Buffer> pbuf = make_uptr( Buffer , buf->base , nread );
     session->on_read( move_ptr( pbuf ) );
-
-    LOG_DEBUG( "Receive %lld bytes" , nread );
 
     delete buf->base;
 }

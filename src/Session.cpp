@@ -68,8 +68,6 @@ void Session::uv_write_callback( uv_write_t * req , int status )
                                     write_token->buffer->base , 
                                     write_token->buffer->len ) );
 
-    LOG_DEBUG( "Send %lld bytes" , write_token->buffer->len );
-
     SAFE_DELETE( buffer->base );
     SAFE_DELETE( buffer );
     SAFE_DELETE( write_token );

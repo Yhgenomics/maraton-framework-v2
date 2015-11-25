@@ -33,8 +33,8 @@ protected:
     virtual void      on_session_open   ( Session * session ) = 0;
     virtual void      on_session_close  ( Session * session ) = 0;
 
-    virtual void      close_session  ( Session* session ) = 0;
-    virtual void      do_work        ( ) = 0;
+    virtual void      close_session     ( Session* session ) = 0;
+    virtual void      do_work           ( ) = 0;
 
 private:
     

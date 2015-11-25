@@ -20,13 +20,17 @@ class SyncWorker
 public:
 
     typedef std::function<bool( SyncWorker* )> syncworker_callback_t;
-    typedef std::function<void( SyncWorker* )> syncworker_after_callback_t;
 
-    static void create      ( const size_t & loop_time , 
-                              const syncworker_callback_t  work_callback , 
-                              const syncworker_after_callback_t  after_callback , 
+    static void create      ( const syncworker_callback_t  work_callback , 
+                              const syncworker_callback_t  after_callback , 
                               void* data );
      
+    static void create      ( const size_t time_span,
+                              const syncworker_callback_t  work_callback , 
+                              const syncworker_callback_t  after_callback , 
+                              void* data );
+     
+    
     void*       data        ( ) { return this->data_; };
     void        data        ( void* value ) { this->data_ = value; };
     void        stop        ( );
@@ -48,7 +52,7 @@ private:
     size_t                          loop_time_      = 1;
 
     syncworker_callback_t           cb_work_        = nullptr;
-    syncworker_after_callback_t     cb_after_work_  = nullptr;
+    syncworker_callback_t           cb_after_work_  = nullptr;
     size_t                          loop_count_     = 1;
 };
 

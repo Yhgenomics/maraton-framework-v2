@@ -150,6 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\AsyncToken.cpp" />
     <ClCompile Include="..\src\AsyncWorker.cpp" />
     <ClCompile Include="..\src\Buffer.cpp" />
     <ClCompile Include="..\src\CircleBuffer.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\inc\AsyncToken.h" />
     <ClInclude Include="..\inc\AsyncWorker.h" />
     <ClInclude Include="..\inc\Buffer.h" />
     <ClInclude Include="..\inc\CircleBuffer.h" />

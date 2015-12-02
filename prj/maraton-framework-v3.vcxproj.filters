@@ -55,6 +55,9 @@
     <ClCompile Include="..\src\Locks.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\AsyncToken.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\inc\Connector.h">
@@ -121,6 +124,9 @@
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\inc\Locks.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\AsyncToken.h">
       <Filter>inc</Filter>
     </ClInclude>
   </ItemGroup>

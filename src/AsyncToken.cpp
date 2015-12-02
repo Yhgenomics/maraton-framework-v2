@@ -6,14 +6,14 @@ AsyncToken::AsyncToken( callback_t callback )
 {
     this->callback_     = callback;
     this->async_.data   = this;
-    uv_async_init( uv_default_loop( ) , 
-                   &this->async_ , 
+    uv_async_init( uv_default_loop( ) ,
+                   &this->async_ ,
                    AsyncToken::uv_async_callback );
 }
 
 AsyncToken::~AsyncToken( )
 {
-
+    uv_close( ( uv_handle_t* ) &this->async_ , NULL );
 }
 
 void AsyncToken::send( void * data )

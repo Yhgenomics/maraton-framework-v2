@@ -157,6 +157,7 @@
     <ClCompile Include="..\src\Connector.cpp" />
     <ClCompile Include="..\src\HTTP.cpp" />
     <ClCompile Include="..\src\Listener.cpp" />
+    <ClCompile Include="..\src\Locks.cpp" />
     <ClCompile Include="..\src\Maraton.cpp" />
     <ClCompile Include="..\src\Operator.cpp" />
     <ClCompile Include="..\src\Session.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="..\inc\HTTP.h" />
     <ClInclude Include="..\inc\json.hpp" />
     <ClInclude Include="..\inc\Listener.h" />
+    <ClInclude Include="..\inc\Locks.h" />
     <ClInclude Include="..\inc\Logger.h" />
     <ClInclude Include="..\inc\Macro.h" />
     <ClInclude Include="..\inc\Manager.h" />

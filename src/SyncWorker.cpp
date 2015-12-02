@@ -29,6 +29,7 @@ void SyncWorker::create( const size_t time_span ,
 
 void SyncWorker::stop()
 {
+    this->finished_ = true;
 }
 
 void SyncWorker::uv_process_timer_tick_callback( uv_timer_t * handle )

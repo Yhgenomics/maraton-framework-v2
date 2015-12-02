@@ -24,13 +24,12 @@ public:
     static void create      ( const syncworker_callback_t  work_callback , 
                               const syncworker_callback_t  after_callback , 
                               void* data );
-     
+
     static void create      ( const size_t time_span,
                               const syncworker_callback_t  work_callback , 
                               const syncworker_callback_t  after_callback , 
                               void* data );
-     
-    
+
     void*       data        ( ) { return this->data_; };
     void        data        ( void* value ) { this->data_ = value; };
     void        stop        ( );

@@ -115,6 +115,8 @@ void HTTPRequest::content( uptr<Buffer> content )
 
 uptr<Buffer> HTTPRequest::content( )
 {
+    if ( this->content_ == nullptr ) return nullptr;
+
     return make_uptr( Buffer , 
                       this->content_->data( ) ,
                       this->content_->size( ) );
@@ -190,6 +192,12 @@ void HTTPRequest::parse( uptr<Buffer> data )
                     {
                         ++pdata;
                         this->parse_state_ = ParseState::kContent;
+                        if ( !this->header_["Content-Length"].empty() )
+                        {
+                            this->content_length_ =
+                                atoll( this->header_["Content-Length"].c_str( ) ); 
+                        } 
+
                         break;
                     }
 
@@ -209,14 +217,7 @@ void HTTPRequest::parse( uptr<Buffer> data )
                     {
                         ++pdata;
                         this->header( this->tmp_key_ , this->tmp_value_ );
-
-                        if ( this->tmp_key_ == "Content-Length"  )
-                        { 
-                            this->content_length_ = 
-                                atoll( this->tmp_value_.c_str( ) );
-                            this->content_ = make_uptr( Buffer , this->content_length_ );
-                        }
-
+                         
                         this->tmp_key_     = "";
                         this->tmp_value_   = ""; 
                         this->parse_state_ = ParseState::kHeadKey;
@@ -227,10 +228,14 @@ void HTTPRequest::parse( uptr<Buffer> data )
                 }
                 break;
             case ParseState::kContent:
-                {
-                    if ( this->content_length_ > MAX_CIRCLE_BUFFER_SIZE )
+                { 
+                    if ( this->content_length_ > MAX_CIRCLE_BUFFER_SIZE)
                     {
                         return;
+                    } 
+                    else if ( this->content_ == nullptr )
+                    {
+                        this->content_ = make_uptr( MRT::Buffer , this->content_length_ );
                     }
 
                     this->content_->push( pdata , 
@@ -340,6 +345,8 @@ void HTTPResponse::content( uptr<Buffer> content )
 
 uptr<Buffer> HTTPResponse::content( )
 {
+    if ( this->content_ == nullptr ) return nullptr;
+
     uptr<Buffer> result = make_uptr( Buffer , 
                                      this->content_->data( ) , 
                                      this->content_->size( ) );

@@ -21,10 +21,7 @@ Buffer::Buffer( size_t size )
         return;
     }
 
-    this->data_  = new char[size]
-    {
-        0
-    };
+    this->data_  = new char[size] { 0 };
     this->pdata_ = this->data_;
     this->size_  = size;
 }
@@ -131,11 +128,9 @@ void Buffer::data( const char * value , size_t size )
     }
 
 
-    this->data_     = new char[size]
-    {
-        0
-    };
+    this->data_     = new char[size] { 0 };
     this->pdata_    = this->data_;
+
     memcpy( this->data_ , value , size );
 }
 

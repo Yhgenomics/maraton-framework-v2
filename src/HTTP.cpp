@@ -142,7 +142,6 @@ void HTTPRequest::header( std::string key , std::string value )
 
 void HTTPRequest::parse( uptr<Buffer> data )
 {
-
     if ( data == nullptr )
     {
         return;
@@ -295,6 +294,16 @@ void* HTTPRequest::data( )
 void HTTPRequest::data( void * value )
 {
     this->data_ = value;
+}
+
+bool HTTPRequest::finish( )
+{
+    if ( this->content_ == nullptr )
+    {
+        return false;
+    }
+
+    return this->content_->size( ) == this->content_length_;
 }
 
 //HTTPResponse::HTTPResponse( size_t status )
@@ -548,6 +557,15 @@ void HTTPResponse::parse( uptr<Buffer> data )
         ++pdata;
     }
     while ( ( pdata - ori_data ) < data->size( ) );
+}
+bool HTTPResponse::finish( )
+{
+    if ( this->content_ == nullptr )
+    {
+        return false;
+    }
+
+    return this->content_->size( ) == this->content_length_;
 }
 //
 //WebRequestSession::WebRequestSession( uptr<HTTPRequest> req )

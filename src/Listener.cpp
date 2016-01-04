@@ -58,20 +58,20 @@ void Listener::uv_new_connection_callback( uv_stream_t * server , int status )
     
     if ( r == 0 )
     {
-        for ( size_t i = 0; i <= listener->session_list_index_; i++ )
-        {
-            if ( listener->session_list_[i] == nullptr )
-            {
-                listener->session_list_[i] = session;
-                if ( listener->session_list_index_ == i )
-                {
-                    listener->session_list_index_ = 
-                        ( listener->session_list_index_ + 1 ) %
-                        MAX_CONNECTION_SIZE;
-                }
-                break;
-            }
-        }
+        //for ( size_t i = 0; i <= listener->session_list_index_; i++ )
+        //{
+        //    if ( listener->session_list_[i] == nullptr )
+        //    {
+        //        listener->session_list_[i] = session;
+        //        if ( listener->session_list_index_ == i )
+        //        {
+        //            listener->session_list_index_ = 
+        //                ( listener->session_list_index_ + 1 ) %
+        //                MAX_CONNECTION_SIZE;
+        //        }
+        //        break;
+        //    }
+        //}
 
         r = uv_read_start( (uv_stream_t*)&session->uv_tcp_ , 
                            Listener::uv_alloc_callback , 
@@ -143,18 +143,18 @@ void Listener::uv_close_callback( uv_handle_t * handle )
     session->on_close           ( );
     listener->on_session_close  ( session );
 
-    for ( size_t i = 0; i < listener->session_list_index_; i++ )
-    {
-        if( listener->session_list_[i] == session )
-        {
-            SAFE_DELETE( listener->session_list_[i] );
-            if( (listener->session_list_index_ - 1) == i )
-            {
-                --listener->session_list_index_;
-            }
-            break;
-        }
-    } 
+    //for ( size_t i = 0; i < listener->session_list_index_; i++ )
+    //{
+    //    if( listener->session_list_[i] == session )
+    //    {
+    //        SAFE_DELETE( listener->session_list_[i] );
+    //        if( (listener->session_list_index_ - 1) == i )
+    //        {
+    //            --listener->session_list_index_;
+    //        }
+    //        break;
+    //    }
+    //} 
 }
 
 void Listener::close_session( Session * session )

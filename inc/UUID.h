@@ -61,7 +61,9 @@ public:
         }
 
         *p = 0;
-        return std::string( buf );
+        auto result = std::string("");
+        result += buf;
+        return result;
     } 
 
 private:

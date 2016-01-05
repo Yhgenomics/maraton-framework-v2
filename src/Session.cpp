@@ -25,9 +25,7 @@ void Session::close( )
 }
 
 void Session::send( uptr<Buffer> pBuffer )
-{
-
-
+{ 
     auto data = move_ptr( pBuffer );
 
     if ( data == nullptr )

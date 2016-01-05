@@ -55,7 +55,19 @@ void Listener::uv_new_connection_callback( uv_stream_t * server , int status )
     session->opt_           = listener;
 
     auto r = uv_accept( server , ( uv_stream_t* ) &session->uv_tcp_ );
+
+    struct sockaddr  peername;
+    struct sockaddr_in* peer_addr;
+    int namelen;
+    memset(&peername, -1, sizeof peername);
+	namelen = sizeof peername;
+	r = uv_tcp_getpeername(&session->uv_tcp_, &peername, &namelen);
+    peer_addr = (sockaddr_in*)&peername;
     
+    auto ip = inet_ntoa( peer_addr->sin_addr );
+    session->ip_address_ = ip;
+    session->port_ = peer_addr->sin_port;
+
     if ( r == 0 )
     {
         //for ( size_t i = 0; i <= listener->session_list_index_; i++ )

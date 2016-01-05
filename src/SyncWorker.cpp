@@ -2,7 +2,7 @@
 
 NS_MARATON_BEGIN
 
-void SyncWorker::create( const syncworker_callback_t  work_callback , 
+SyncWorker* SyncWorker::create( const syncworker_callback_t  work_callback , 
                          const syncworker_callback_t  after_callback , 
                          void * data )
 {
@@ -12,9 +12,11 @@ void SyncWorker::create( const syncworker_callback_t  work_callback ,
     worker->loop_time_      = 1;
     worker->data( data );
     worker->start();
+
+    return worker;
 }
 
-void SyncWorker::create( const size_t time_span , 
+SyncWorker* SyncWorker::create( const size_t time_span , 
                          const syncworker_callback_t work_callback , 
                          const syncworker_callback_t after_callback , 
                          void * data )
@@ -25,6 +27,18 @@ void SyncWorker::create( const size_t time_span ,
     worker->loop_time_      = time_span;
     worker->data( data );
     worker->start();
+
+    return worker;
+}
+
+void SyncWorker::stop( SyncWorker * worker )
+{
+    if ( worker == nullptr )
+    {
+        return;
+    }
+
+    worker->stop( );
 }
 
 void SyncWorker::stop()
@@ -36,8 +50,19 @@ void SyncWorker::uv_process_timer_tick_callback( uv_timer_t * handle )
 {
     SyncWorker* worker = static_cast< SyncWorker* >( handle->data );
 
-    if( worker->finished_ )
-    {
+    if ( worker->finished_ )
+    { 
+        if ( worker->cb_after_work_ != nullptr )
+        {
+            worker->cb_after_work_( worker );
+        }
+
+        int result = uv_timer_stop( &worker->timer_ );
+
+        LOG_DEBUG_UV( result );
+        
+        SAFE_DELETE( worker );
+
         return;
     }
 
@@ -53,11 +78,13 @@ void SyncWorker::uv_process_timer_tick_callback( uv_timer_t * handle )
         return;
     }
 
-    worker->finished_  = worker->cb_work_( worker );
+    if ( !worker->finished_ )
+    {
+        worker->finished_  = worker->cb_work_( worker );
+        ++worker->loop_count_;
+    }
 
-    ++worker->loop_count_;
-
-    if ( worker->finished_ )
+    /*if ( worker->finished_ )
     { 
         if ( worker->cb_after_work_ != nullptr )
         {
@@ -69,7 +96,7 @@ void SyncWorker::uv_process_timer_tick_callback( uv_timer_t * handle )
         LOG_DEBUG_UV( result );
         
         SAFE_DELETE( worker );
-    }
+    }*/
 }
 
 SyncWorker::SyncWorker()

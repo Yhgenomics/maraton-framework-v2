@@ -2,24 +2,39 @@
 
 NS_MARATON_BEGIN
 
-void AsyncWorker::create( callback_t acting ,
-                          callback_t finish , 
-                          void * data )
+AsyncWorker* AsyncWorker::create( callback_t acting ,
+                                  callback_t finish , 
+                                  void * data )
 {
     auto r = new AsyncWorker( acting, finish );
     r->data( data );
     r->start();
+    return r;
 }
 
-void AsyncWorker::create( callback_t callback, 
-                          void * data )
+AsyncWorker* AsyncWorker::create( callback_t callback, 
+                                  void * data )
 {
     auto r = new AsyncWorker( callback , nullptr );
     r->data( data );
     r->start();
+    return r;
 }
 
-AsyncWorker::AsyncWorker( callback_t acting , 
+void AsyncWorker::stop( AsyncWorker * worker )
+{
+    if ( worker == nullptr ) return;
+
+    worker->stop( );
+    SAFE_DELETE( worker );
+}
+
+void AsyncWorker::stop( )
+{
+    uv_cancel( (uv_req_t*) &this->worker );
+}
+
+AsyncWorker::AsyncWorker( callback_t acting ,
                           callback_t finish )
 {
     this->acting_callback_ = acting;
@@ -33,6 +48,8 @@ void AsyncWorker::start()
                    AsyncWorker::uv_process_work_callback , 
                    AsyncWorker::uv_process_after_work_callback );
 }
+
+
 
 void AsyncWorker::uv_process_work_callback( uv_work_t * req )
 {

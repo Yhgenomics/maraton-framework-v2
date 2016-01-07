@@ -161,7 +161,8 @@ void WebClient::uv_send_request( WebClientRequestToken* token )
     LOG_DEBUG_UV( r ); 
     LOG_DEBUG( "%s" , write_token->buffer->base );
 
-    if ( body_buf != nullptr )
+    if ( body_buf != nullptr &&
+         body_buf->size() > 0)
     {
         write_token                 = new write_token_t;
         write_token->writer         = new uv_write_t( );
@@ -214,7 +215,7 @@ void WebClient::uv_process_resolved( uv_getaddrinfo_t * req ,
                  16 );
     delete res;
     uv_ip4_addr( ip ,
-                 80 ,
+                 token->req->port_ ,
                  &token->addr_in );
 
     token->ip = ip;

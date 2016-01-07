@@ -22,7 +22,7 @@ public:
     static std::string create() 
     {
         std::string ret = "";
-        char buf[UUID_LEN];
+        //char buf[UUID_LEN];
         const char *c = "yhgenomics";
         char num_buf[8] = { 0 };
 

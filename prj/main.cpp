@@ -1,16 +1,41 @@
 #include "MRT.h"
 #include <thread>
+#include <ostream>
+#include <string>
 
 using namespace MRT;
-
+using namespace std;
 
 int main( )
 {
+    MRT::json postJson;
+    MRT::json hostConfig;
+    string image ="10.0.0.15:5000/bwamem";
+    vector<string> enviroment;
+    vector<string> binds;
+
+    enviroment.push_back( "t=2" );
+    enviroment.push_back( "refgen=hg19.fa" );
+    enviroment.push_back( "reads=small" );
+
+    binds.push_back( "/data/input/:/input/" );
+    binds.push_back( "/data/output/:/output/" );
+    binds.push_back( "/data/ref/:/ref/" );
+    binds.push_back( "/dev/shm/:/dev/shm/" );
+
+    postJson[ "Image" ] = image;
+    postJson[ "Env" ] = enviroment;
+    hostConfig[ "Binds" ] = binds;
+    postJson[ "HostConfig" ] = hostConfig;
+
     MRT::WebClient wc;
-    
-    wc.post("http://10.0.0.70/containers/609f1144a8da8305c21ff/start", "" , []( uptr<MRT::HTTPResponse> rep)
+    wc.header( "Content-Type" , "application/json" );
+    wc.post("http://10.0.0.70:4243/containers/create",  postJson.dump() , []( uptr<MRT::HTTPResponse> rep)
     {
-        printf( "done\r\n" );
+        cout << rep->content()->data() << endl;
+        string res = string( rep->content()->data() );
+        cout <<res<<endl;
+
     } );
 
     while(true)

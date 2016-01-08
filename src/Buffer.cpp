@@ -153,6 +153,11 @@ void Buffer::push( const char * data , size_t len )
     this->pdata_+=delta;
 }
 
+void Buffer::zero( )
+{
+    memset( this->data_ , this->size_ , 0 );
+}
+
 void Buffer::clearup( )
 {
     SAFE_DELETE( this->data_ );

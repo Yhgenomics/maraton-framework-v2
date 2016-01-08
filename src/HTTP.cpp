@@ -543,6 +543,7 @@ void HTTPResponse::parse( uptr<Buffer> data )
                         {
                             this->content_length_ = atoll( this->tmp_value_.c_str( ) );
                             this->content_ = make_uptr( Buffer , this->content_length_ );
+                            this->content_->zero( );
                         }
 
                         this->tmp_key_     = "";
@@ -571,8 +572,11 @@ void HTTPResponse::parse( uptr<Buffer> data )
                         {
                             return;
                         }
+
+                        auto size = scast<int>( pdata - ori_data + 1);
+
                         this->content_->push( pdata ,
-                                              data->size( ) - ( pdata - ori_data ) );
+                                              data->size( ) - size );
                     }
                     return;
                 }

@@ -573,7 +573,7 @@ void HTTPResponse::parse( uptr<Buffer> data )
                             return;
                         }
 
-                        auto size = scast<int>( pdata - ori_data + 1);
+                        auto size = scast<int>( pdata - ori_data );
 
                         this->content_->push( pdata ,
                                               data->size( ) - size );

@@ -33,7 +33,7 @@ int main( )
     wc.post("http://10.0.0.70:4243/containers/create",  postJson.dump() , []( uptr<MRT::HTTPResponse> rep)
     {
         cout << rep->content()->data() << endl;
-        string res = string( rep->content()->data() );
+        string res = string( rep->content()->data() , rep->content()->size() );
         cout <<res<<endl;
 
     } );

@@ -153,7 +153,8 @@ void HTTPRequest::content_length( size_t size )
 {
     this->content_length_ = size;
     char buf[32]          = { 0 };
-    ltoa( ( long ) size , buf , 10 );
+    sprintf( buf , "%lld" , size );
+    //ltoa( ( long ) size , buf , 10 );
     this->header( "Content-Length" , std::string( buf ) );
 }
 

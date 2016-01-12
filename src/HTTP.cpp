@@ -393,7 +393,8 @@ void HTTPResponse::content_length( size_t size )
 {
     this->content_length_ = size;
     char buf[16]          = { 0 };
-    ltoa( size , buf , 10 );
+    sprintf(buf ,  "%lld" , size );
+    //ltoa( size , buf , 10 );
     this->header( "Content-Length" , std::string( buf ) );
 }
 
@@ -437,7 +438,8 @@ uptr<Buffer> HTTPResponse::build_header( )
     std::string new_line    = "\r\n";
     char tmp[16]            = { 0 };
 
-    ltoa( this->status_ , tmp , 10 );
+    sprintf(tmp ,  "%lld" , this->status_ );
+    //ltoa( this->status_ , tmp , 10 );
     std::string status_code_str ( tmp );
 
     head += "HTTP/1.1 " + status_code_str + " " + this->status_str_ + new_line;

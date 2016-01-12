@@ -5,7 +5,9 @@
 #include <direct.h>
 #else
 #include <unistd.h>
+#include <string.h>
 #endif
+ 
 
 NS_MARATON_BEGIN
 

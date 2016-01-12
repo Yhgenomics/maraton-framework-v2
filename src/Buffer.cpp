@@ -1,5 +1,9 @@
 #include "Buffer.h"
 
+#ifndef _WIN32
+#include <string.h>
+#endif
+
 NS_MARATON_BEGIN
 
 Buffer::Buffer( )

@@ -2,6 +2,10 @@
 #include "Operator.h"
 #include "AsyncToken.h"
 
+#ifndef _WIN32
+#include <string.h>
+#endif
+
 NS_MARATON_BEGIN
 
 Session::Session( )

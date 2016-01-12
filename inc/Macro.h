@@ -74,6 +74,7 @@ public:                                                     \
 #if DEBUG_MODE
 
 #if _WIN32
+
 #define LOG_DEBUG(msg_,...) Logger::log("%s:%d "##msg_,__FILE__,__LINE__,##__VA_ARGS__)
 #define LOG_DEBUG_UV(status) \
                 if( status != 0 ) \
@@ -83,7 +84,7 @@ public:                                                     \
                                 uv_strerror((int)status))
 
 #else
-#define LOG_DEBUG(msg_,...) Logger::log(msg_,__VA_ARGS__)
+#define LOG_DEBUG Logger::log
 #define LOG_DEBUG_UV(status) \
                 if( status != 0 ) \
                     Logger::log(uv_strerror((int)status))
@@ -91,17 +92,27 @@ public:                                                     \
 #endif
 
 #else
-#define LOG_DEBUG(msg_,...) 
+#define LOG_DEBUG Logger::log
 #define LOG_DEBUG_UV(status)
 #endif
 
-// Message definitions
+#if _WIN32
+
 #define LOG_UV_ERROR(__x__) if ( __x__ != 0 ) printf( "error %s", \
                                                   uv_strerror((int)__x__));
 #define LOG_SYS(msg_,...) Logger::sys(msg_,__VA_ARGS__)
 #define LOG_EERROR(msg_,...) Logger::error(msg_,__VA_ARGS__)
 #define UV_ERROR(status) uv_strerror((int)status)
 
+#else
+#define LOG_UV_ERROR(__x__) if ( __x__ != 0 ) printf( "error %s", \
+                                                  uv_strerror((int)__x__));
+#define LOG_SYS Logger::sys
+#define LOG_EERROR Logger::error
+#define UV_ERROR(status) uv_strerror((int)status)
+
+#endif
+ 
 #endif // !MRT_MACRO_H_
 
 

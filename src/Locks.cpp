@@ -1,4 +1,4 @@
-#include "..\inc\Locks.h"
+#include "Locks.h"
 
 NS_MARATON_BEGIN
 

@@ -1,5 +1,9 @@
 #include "Listener.h"
 
+#ifndef _WIN32
+#include <string.h>
+#endif
+
 NS_MARATON_BEGIN 
  
 Listener::Listener( std::string addr , int port )

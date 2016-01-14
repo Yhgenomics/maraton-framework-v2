@@ -159,7 +159,7 @@ void Buffer::push( const char * data , size_t len )
 
 void Buffer::zero( )
 {
-    memset( this->data_ , this->size_ , 0 );
+    memset( this->data_ , (int)this->size_ , 0 );
 }
 
 void Buffer::clearup( )

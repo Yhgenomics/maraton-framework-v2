@@ -1,6 +1,7 @@
 #include "Session.h"
 #include "Operator.h"
 #include "AsyncToken.h"
+#include "SyncWorker.h"
 
 #ifndef _WIN32
 #include <string.h>
@@ -10,7 +11,7 @@ NS_MARATON_BEGIN
 
 Session::Session( )
 {
-
+    is_connected_ = true;
 }
 
 Session::~Session( )
@@ -20,16 +21,18 @@ Session::~Session( )
 
 void Session::close( )
 {
-    this->opt_->close_session( this );
+    if ( !is_connected_ )
+        return;
 
-    //MRT::AsyncToken token( [this] ( AsyncToken* token , void* pdata )
-    //{ 
-    //    this->opt_->close_session( this );
-    //} );
+    this->is_connected_=false;
+    this->opt_->close_session( this );
 }
 
 void Session::send( uptr<Buffer> pBuffer )
 { 
+    if ( !is_connected_ )
+        return;
+
     auto data = move_ptr( pBuffer );
 
     if ( data == nullptr )
@@ -90,7 +93,7 @@ void Session::send( uptr<Buffer> pBuffer )
 void Session::uv_write_callback( uv_write_t * req , int status )
 {
     write_token_t* write_token = scast<write_token_t*>( req->data );
-    
+      
     if( write_token == nullptr )
     {
         LOG_DEBUG( "write_token is nullptr!" );
@@ -112,7 +115,7 @@ void Session::uv_write_callback( uv_write_t * req , int status )
     write_token->session->on_write( make_uptr( Buffer , 
                                     write_token->buffer->base , 
                                     write_token->buffer->len ) );
-
+    
     SAFE_DELETE( buffer->base );
     SAFE_DELETE( buffer );
     SAFE_DELETE( write_token );

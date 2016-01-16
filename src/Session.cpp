@@ -57,37 +57,6 @@ void Session::send( uptr<Buffer> pBuffer )
                         Session::uv_write_callback );
 
     LOG_DEBUG_UV( r );
-
-    //MRT::AsyncToken token( [this] ( AsyncToken* token , void* pdata )
-    //{ 
-    //    Buffer* data = scast<Buffer*>( pdata );
-
-    //    if ( data == nullptr )
-    //    {
-    //        return;
-    //    }
-
-    //    write_token_t* write_token  = new write_token_t;
-    //    write_token->writer         = new uv_write_t();
-    //    write_token->buffer         = new uv_buf_t();
-    //    write_token->buffer->base   = new char[data->size()] { 0 };
-    //    write_token->buffer->len    = data->size();
-    //    write_token->writer->data   = write_token;
-    //    write_token->session        = this;
-
-    //    memcpy( write_token->buffer->base, data->data(), data->size() );
-    //
-    //    auto r  = uv_write( write_token->writer, 
-    //                        (uv_stream_t*) &this->uv_tcp_, 
-    //                        write_token->buffer, 
-    //                        1,  
-    //                        Session::uv_write_callback );
-
-    //    SAFE_DELETE( data );
-    //    LOG_DEBUG_UV( r ); 
-    //} );
-
-    //token.send( pBuffer.release( ) );
 }
 
 void Session::uv_write_callback( uv_write_t * req , int status )

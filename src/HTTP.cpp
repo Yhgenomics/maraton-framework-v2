@@ -168,6 +168,11 @@ void HTTPRequest::header( std::string key , std::string value )
     this->header_[key] = value;
 }
 
+std::string HTTPRequest::header( std::string key )
+{
+    return this->header_[key];
+}
+
 void HTTPRequest::parse( uptr<Buffer> data )
 {
     if ( data == nullptr )

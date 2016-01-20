@@ -40,7 +40,7 @@ void Session::send( uptr<Buffer> pBuffer )
         return;
     }
 
-    write_token_t* write_token  = new write_token_t;
+    write_token_t* write_token  = new write_token_t( );
     write_token->writer         = new uv_write_t( );
     write_token->buffer         = new uv_buf_t( );
     write_token->buffer->base   = new char[data->size( )] { 0 };

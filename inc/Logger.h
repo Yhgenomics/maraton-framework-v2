@@ -17,16 +17,16 @@ class Logger
 public:
 
     template<typename ...Types>
-    static void sys( const char* fmt, Types... args)
+    static void sys( const char* fmt , Types... args )
     {
 
 #ifdef _WIN32
-        printf( "[SYS] %lld: ", Timer::tick() );
+        printf( "[SYS] %lld: " , Timer::tick( ) );
 #else
-        printf( "\033[1;33m[SYS] %lld: ", Timer::tick() );
+        printf( "\033[1;33m[SYS] %zu: " , Timer::tick( ) );
 #endif
 
-        printf( fmt, args... );
+        printf( fmt , args... );
 
 #ifdef _WIN32
         printf( "\r\n" );
@@ -37,12 +37,12 @@ public:
     }
 
     template<typename ...Types>
-    static void error( const char* fmt, Types... args )
+    static void error( const char* fmt , Types... args )
     {
 #ifdef _WIN32
-        printf( "[ERROR] %lld: ", Timer::tick() );
+        printf( "[ERROR] %lld: " , Timer::tick( ) );
 #else
-        printf( "\033[0;31m[ERROR] %lld: ", Timer::tick() );
+        printf( "\033[0;31m[ERROR] %zu: " , Timer::tick( ) );
 #endif
 
         printf( fmt , args... );
@@ -55,16 +55,24 @@ public:
     }
 
     template<typename ...Types>
-    static void log( const char* fmt, Types... args )
-    { 
-        printf( "%lld: ", Timer::tick() );
+    static void log( const char* fmt , Types... args )
+    {
+#ifdef _WIN32
+        printf( "%lld: " , Timer::tick( ) );
+#else
+        printf( "%zu: " , Timer::tick( ) );
+#endif   
         printf( fmt , args... );
         printf( "\r\n" );
     }
 private:
 
-    Logger() {};
-    ~Logger() {};
+    Logger( )
+    {
+    };
+    ~Logger( )
+    {
+    };
 };
 
 #endif // !MRT_LOGER_H_ 

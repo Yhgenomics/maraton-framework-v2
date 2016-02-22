@@ -186,6 +186,7 @@
     <ClInclude Include="..\inc\Singleton.h" />
     <ClInclude Include="..\inc\SyncWorker.h" />
     <ClInclude Include="..\inc\SysProcess.h" />
+    <ClInclude Include="..\inc\SystemInfo.h" />
     <ClInclude Include="..\inc\Timer.h" />
     <ClInclude Include="..\inc\UUID.h" />
     <ClInclude Include="..\inc\WebClient.h" />

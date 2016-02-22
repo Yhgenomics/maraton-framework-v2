@@ -120,5 +120,8 @@
     <ClInclude Include="..\inc\AsyncToken.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\inc\SystemInfo.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

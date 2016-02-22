@@ -19,6 +19,7 @@
 #include "Manager.h"
 #include "WebClient.h"
 #include "Locks.h"
+#include "SystemInfo.h"
 
 #include "Maraton.h"
 #include "Listener.h"

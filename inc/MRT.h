@@ -13,7 +13,6 @@
 #include "AsyncWorker.h"
 #include "SyncWorker.h"
 #include "Timer.h"
-#include "Configuration.h"
 #include "Singleton.h"
 #include "HTTP.h"
 #include "SysProcess.h"

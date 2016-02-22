@@ -3,7 +3,7 @@
 
 NS_MARATON_BEGIN
 
-void Maraton::regist( uptr<Operator> opt )
+void Maraton::regist( sptr<Operator> opt )
 {
     opt->addrinfo_.ai_family       = PF_INET;
     opt->addrinfo_.ai_socktype     = SOCK_STREAM;
@@ -19,15 +19,15 @@ void Maraton::regist( uptr<Operator> opt )
                             NULL ,
                             &opt->addrinfo_ );
 
-    opt->index_ = elements_index_;
-    elements_[opt->index_] = move_ptr( opt );
-    elements_index_ = ( elements_index_ + 1 ) % MAX_CONNECTION_SIZE;
+    opt->index_             = elements_index_;
+    elements_[opt->index_]  = sptr<Operator>( opt );
+    elements_index_         = ( elements_index_ + 1 ) % MAX_CONNECTION_SIZE;
 }
 
 void Maraton::uv_process_resolved( uv_getaddrinfo_t * req , int status , addrinfo * res )
 {
-    int result = 0;
-    Operator * opt = scast<Operator*>( req->data );
+    int result      = 0;
+    Operator * opt  = scast<Operator*>( req->data );
 
     if ( opt == nullptr )
     {
@@ -59,14 +59,22 @@ void Maraton::uv_process_resolved( uv_getaddrinfo_t * req , int status , addrinf
     delete res;
 }
 
-void Maraton::unregist( const Operator * opt )
+void Maraton::unregist( sptr<Operator> opt )
 {
-    elements_[opt->index_] = nullptr;
+    this->unregist( opt.get( ) );
 }
 
-void Maraton::loop( )
+void Maraton::run( )
 {
     uv_run( this->uv_loop( ) , UV_RUN_DEFAULT );
+}
+
+void Maraton::unregist( const Operator * opt )
+{
+    if ( opt == nullptr )
+        return;
+
+    elements_[opt->index_] = nullptr;
 }
 
 uv_loop_t * Maraton::uv_loop( )

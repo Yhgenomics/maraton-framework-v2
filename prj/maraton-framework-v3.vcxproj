@@ -154,7 +154,6 @@
     <ClCompile Include="..\src\AsyncWorker.cpp" />
     <ClCompile Include="..\src\Buffer.cpp" />
     <ClCompile Include="..\src\CircleBuffer.cpp" />
-    <ClCompile Include="..\src\Configuration.cpp" />
     <ClCompile Include="..\src\Connector.cpp" />
     <ClCompile Include="..\src\HTTP.cpp" />
     <ClCompile Include="..\src\Listener.cpp" />
@@ -173,10 +172,8 @@
     <ClInclude Include="..\inc\AsyncWorker.h" />
     <ClInclude Include="..\inc\Buffer.h" />
     <ClInclude Include="..\inc\CircleBuffer.h" />
-    <ClInclude Include="..\inc\Configuration.h" />
     <ClInclude Include="..\inc\Connector.h" />
     <ClInclude Include="..\inc\HTTP.h" />
-    <ClInclude Include="..\inc\json.hpp" />
     <ClInclude Include="..\inc\Listener.h" />
     <ClInclude Include="..\inc\Locks.h" />
     <ClInclude Include="..\inc\Logger.h" />
